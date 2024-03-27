@@ -39,7 +39,12 @@ class FreeCellBar extends StatelessWidget {
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [CardSlot(), CardSlot(), CardSlot(), CardSlot()],
+          children: [
+            FreeCellSlot(),
+            FreeCellSlot(),
+            FreeCellSlot(),
+            FreeCellSlot(),
+          ],
         ),
       ),
     ));
@@ -65,13 +70,13 @@ class PlayArea extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Column(
                     children: [
-                      for (int i = 1; i < 14; i++)
+                      for (int i = 1; i < 5; i++)
                         PlayingCard(
                             cardData: CardData(
                                 id: i,
                                 suit: Suits.clubs,
                                 value: i,
-                                isExpanded: false))
+                                isExpanded: true))
                     ],
                   ),
                 )
@@ -96,16 +101,16 @@ class CompletedCardsBar extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            CardSlot(
+            CompletedCardSlot(
               backgroundImage: Suits.hearts.image,
             ),
-            CardSlot(
+            CompletedCardSlot(
               backgroundImage: Suits.clubs.image,
             ),
-            CardSlot(
+            CompletedCardSlot(
               backgroundImage: Suits.diamonds.image,
             ),
-            CardSlot(
+            CompletedCardSlot(
               backgroundImage: Suits.spades.image,
             )
           ],

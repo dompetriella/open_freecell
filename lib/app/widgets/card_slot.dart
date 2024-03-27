@@ -1,33 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:truly_freecell/app/models/card_data.dart';
 
-class CardSlot extends StatelessWidget {
-  final String? backgroundImage;
-  const CardSlot({super.key, this.backgroundImage});
+double _cardHeight = 135;
+double _cardWidth = 100;
+
+class CompletedCardSlot extends StatelessWidget {
+  final String backgroundImage;
+  const CompletedCardSlot({super.key, required this.backgroundImage});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Container(
-          height: 130,
-          width: 85,
-          decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(5),
-              border: Border.all(color: Colors.white, width: 3)),
-          child: Center(
+            height: _cardHeight,
+            width: _cardWidth,
+            decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(5),
+                border: Border.all(color: Colors.white, width: 3)),
+            child: Center(
               child: SizedBox(
                   width: 50,
-                  child: backgroundImage == null
-                      ? null
-                      : SvgPicture.asset(
-                          backgroundImage!,
-                          colorFilter: ColorFilter.mode(
-                              Colors.white.withOpacity(0.25), BlendMode.srcIn),
-                        ))),
-        ),
+                  child: SvgPicture.asset(
+                    backgroundImage,
+                    colorFilter: ColorFilter.mode(
+                        Colors.white.withOpacity(0.25), BlendMode.srcIn),
+                  )),
+            )),
       ],
     );
+  }
+}
+
+class FreeCellSlot extends StatelessWidget {
+  const FreeCellSlot({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DragTarget<CardData>(
+        builder: (context, candidateData, rejectedData) {
+      return Container(
+        height: _cardHeight,
+        width: _cardWidth,
+        decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(color: Colors.white, width: 3)),
+      );
+    });
   }
 }
