@@ -51,7 +51,10 @@ class PlayingCard extends StatelessWidget {
                       child: Center(
                         child: Text(
                           cardName,
-                          style: TextStyle(color: Colors.white, fontSize: 36),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 36,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),

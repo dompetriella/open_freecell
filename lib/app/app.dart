@@ -76,7 +76,7 @@ class PlayArea extends StatelessWidget {
                                 id: i,
                                 suit: Suits.clubs,
                                 value: i,
-                                isExpanded: true))
+                                isExpanded: false))
                     ],
                   ),
                 )
