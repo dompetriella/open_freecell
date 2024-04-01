@@ -128,7 +128,7 @@ class _$CardDataImpl implements _CardData {
       {required this.id,
       required this.suit,
       required this.value,
-      required this.isExpanded});
+      this.isExpanded = false});
 
   @override
   final int id;
@@ -137,6 +137,7 @@ class _$CardDataImpl implements _CardData {
   @override
   final int value;
   @override
+  @JsonKey()
   final bool isExpanded;
 
   @override
@@ -171,7 +172,7 @@ abstract class _CardData implements CardData {
       {required final int id,
       required final Suits suit,
       required final int value,
-      required final bool isExpanded}) = _$CardDataImpl;
+      final bool isExpanded}) = _$CardDataImpl;
 
   @override
   int get id;

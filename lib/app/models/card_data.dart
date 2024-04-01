@@ -9,5 +9,5 @@ class CardData with _$CardData {
       {required int id,
       required Suits suit,
       required int value,
-      required bool isExpanded}) = _CardData;
+      @Default(false) bool isExpanded}) = _CardData;
 }

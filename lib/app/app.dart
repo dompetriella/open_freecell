@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:truly_freecell/app/models/card_data.dart';
 import 'package:truly_freecell/app/models/enums.dart';
+import 'package:truly_freecell/app/state/app_state.dart';
 import 'package:truly_freecell/app/widgets/card_slot.dart';
 import 'package:truly_freecell/app/widgets/playing_card.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class App extends StatelessWidget {
+class App extends ConsumerWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(appStateProvider);
     return SafeArea(
         child: Scaffold(
       backgroundColor: Colors.green,
@@ -51,13 +54,15 @@ class FreeCellBar extends StatelessWidget {
   }
 }
 
-class PlayArea extends StatelessWidget {
+class PlayArea extends ConsumerWidget {
   const PlayArea({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    var gameState = ref.watch(appStateProvider);
+
     return Flexible(
         flex: 4,
         child: Padding(
@@ -65,18 +70,13 @@ class PlayArea extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              for (int j = 0; j < 8; j++)
+              for (int i = 0; i < gameState.playColumns.length; i++)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Column(
                     children: [
-                      for (int i = 1; i < 5; i++)
-                        PlayingCard(
-                            cardData: CardData(
-                                id: i,
-                                suit: Suits.clubs,
-                                value: i,
-                                isExpanded: false))
+                      for (int j = 0; j < gameState.playColumns[i].length; j++)
+                        PlayingCard(cardData: gameState.playColumns[i][j])
                     ],
                   ),
                 )
