@@ -53,7 +53,10 @@ class FreeCellSlot extends HookWidget {
             borderRadius: BorderRadius.circular(5),
             border: Border.all(color: Colors.white, width: 3)),
         child: cardData.value != null
-            ? PlayingCard(cardData: cardData.value!)
+            ? PlayingCard(
+                cardData: cardData.value!,
+                index: 0,
+              )
             : null,
       );
     });

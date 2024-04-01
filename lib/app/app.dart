@@ -76,7 +76,10 @@ class PlayArea extends ConsumerWidget {
                   child: Column(
                     children: [
                       for (int j = 0; j < gameState.playColumns[i].length; j++)
-                        PlayingCard(cardData: gameState.playColumns[i][j])
+                        PlayingCard(
+                          cardData: gameState.playColumns[i][j],
+                          index: j,
+                        )
                     ],
                   ),
                 )
