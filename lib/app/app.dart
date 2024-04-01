@@ -78,6 +78,7 @@ class PlayArea extends ConsumerWidget {
                       for (int j = 0; j < gameState.playColumns[i].length; j++)
                         PlayingCard(
                           cardData: gameState.playColumns[i][j],
+                          isExpanded: gameState.playColumns[i].length - 1 == j,
                           index: j,
                         )
                     ],

@@ -55,7 +55,8 @@ class FreeCellSlot extends HookWidget {
         child: cardData.value != null
             ? PlayingCard(
                 cardData: cardData.value!,
-                index: 0,
+                isExpanded: true,
+                inPlayColumn: false,
               )
             : null,
       );
