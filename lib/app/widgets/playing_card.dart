@@ -44,8 +44,8 @@ class PlayingCard extends StatelessWidget {
 
     return Transform.translate(
       offset: Offset(0, -3.0 * (index ?? 0)),
-      child: Draggable<CardData>(
-        data: cardData,
+      child: Draggable<List<CardData>>(
+        data: [cardData],
         feedback: PlayingCardDraggablePreview(
           cardData: cardData,
         ),

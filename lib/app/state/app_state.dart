@@ -52,9 +52,15 @@ class AppState extends _$AppState {
         playColumns: playColumns);
   }
 
-  // void decreaseItemInCart({required SaleItem? itemToDecrease}) {
-  //   state = state.update(
-  //     itemToDecrease,
-  //     (value) => value - 1,
-  //   );
+  void moveCardDataToFreecell(CardData cardData, int freecellIndex) {
+    List<List<CardData>> newPlayColumns = List.from(state.playColumns);
+    List<List<CardData>> newFreecellList = List.from(state.freecells);
+
+    for (var column in newPlayColumns) {
+      column.removeWhere((element) => element.id == cardData.id);
+    }
+    newFreecellList[freecellIndex].add(cardData);
+    state =
+        state.copyWith(playColumns: newPlayColumns, freecells: newFreecellList);
+  }
 }
