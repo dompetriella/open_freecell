@@ -34,7 +34,7 @@ class AppState extends _$AppState {
       playColumns.add([]);
     }
     for (var card in deck) {
-      playColumns[column].add(card);
+      playColumns[column].add(card.copyWith(lastColumnIndex: column));
       if (column < playColumnNumber - 1) {
         column++;
       } else {
@@ -50,17 +50,5 @@ class AppState extends _$AppState {
         freecells: freecells,
         completedPiles: completedPiles,
         playColumns: playColumns);
-  }
-
-  void moveCardDataToFreecell(CardData cardData, int freecellIndex) {
-    List<List<CardData>> newPlayColumns = List.from(state.playColumns);
-    List<List<CardData>> newFreecellList = List.from(state.freecells);
-
-    for (var column in newPlayColumns) {
-      column.removeWhere((element) => element.id == cardData.id);
-    }
-    newFreecellList[freecellIndex].add(cardData);
-    state =
-        state.copyWith(playColumns: newPlayColumns, freecells: newFreecellList);
   }
 }

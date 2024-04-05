@@ -9,5 +9,6 @@ class CardData with _$CardData {
       {required int id,
       required Suits suit,
       required int value,
+      @Default(null) int? lastColumnIndex,
       @Default(false) bool isExpanded}) = _CardData;
 }
