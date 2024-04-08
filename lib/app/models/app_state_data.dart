@@ -6,7 +6,6 @@ part 'app_state_data.freezed.dart';
 @freezed
 class AppStateData with _$AppStateData {
   factory AppStateData({
-    @Default([]) List<List<CardData>> freecells,
     @Default([]) List<List<CardData>> completedPiles,
     @Default([]) List<List<CardData>> playColumns,
   }) = _AppStateData;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:truly_freecell/app/app.dart';
 import 'package:truly_freecell/app/state/app_state.dart';
 import 'package:truly_freecell/app/widgets/playing_card.dart';
 
@@ -19,7 +20,7 @@ class PlayArea extends ConsumerWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              for (int i = 0; i < gameState.playColumns.length; i++)
+              for (int i = 0; i < GLOBAL_playColumnNumber; i++)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Column(

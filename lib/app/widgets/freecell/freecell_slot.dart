@@ -14,12 +14,12 @@ class FreecellSlot extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var appState = ref.watch(appStateProvider);
     var appStateActions = ref.watch(appStateProvider.notifier);
-    var contents = appState.freecells[freecellIndex];
+    var contents = appState.playColumns[freecellIndex];
 
     return DragTarget(
       onAcceptWithDetails: (DragTargetDetails<List<CardData>> details) {
         if (details.data.length == 1 &&
-            appState.freecells[freecellIndex].isEmpty) {
+            appState.playColumns[freecellIndex].isEmpty) {
           appStateActions.addCardToFreecell(details.data.first, freecellIndex);
         }
       },

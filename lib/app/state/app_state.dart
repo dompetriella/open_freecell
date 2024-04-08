@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:truly_freecell/app/app.dart';
 import 'package:truly_freecell/app/models/app_state_data.dart';
 import 'package:truly_freecell/app/models/card_data.dart';
 import 'package:truly_freecell/app/models/enums.dart';
@@ -18,7 +19,6 @@ class AppState extends _$AppState {
     List<List<CardData>> playColumns = [];
     List<List<CardData>> freecells = [[], [], [], []];
     List<List<CardData>> completedPiles = [[], [], [], []];
-    int playColumnNumber = 8;
     int id = 0;
     for (var suit in Suits.values) {
       for (var i = 1; i < 14; i++) {
@@ -30,12 +30,12 @@ class AppState extends _$AppState {
     deck.shuffle();
 
     int column = 0;
-    for (var i = 0; i < playColumnNumber; i++) {
+    for (var i = 0; i < GLOBAL_playColumnNumber; i++) {
       playColumns.add([]);
     }
     for (var card in deck) {
       playColumns[column].add(card.copyWith(lastColumnIndex: column));
-      if (column < playColumnNumber - 1) {
+      if (column < GLOBAL_playColumnNumber - 1) {
         column++;
       } else {
         column = 0;
@@ -46,21 +46,20 @@ class AppState extends _$AppState {
       columns.last = columns.last.copyWith(isExpanded: true);
     }
 
+    playColumns = playColumns + freecells;
+
     return AppStateData(
-        freecells: freecells,
-        completedPiles: completedPiles,
-        playColumns: playColumns);
+        completedPiles: completedPiles, playColumns: playColumns);
   }
 
   void addCardToFreecell(CardData cardData, int freecellIndex) {
-    List<List<CardData>> newFreeCellState = List.from(state.freecells);
+    List<List<CardData>> newFreeCellState = List.from(state.playColumns);
 
-    CardData newCardData =
-        cardData.copyWith(lastColumnIndex: PlayColumns.freecell.index);
+    CardData newCardData = cardData.copyWith(lastColumnIndex: freecellIndex);
     List<CardData> newIndexedFreecell = [newCardData];
     newFreeCellState[freecellIndex] = newIndexedFreecell;
 
-    state = state.copyWith(freecells: newFreeCellState);
+    state = state.copyWith(playColumns: newFreeCellState);
   }
 
   void removeCardFromPlayColumn(CardData cardData) {
@@ -72,6 +71,7 @@ class AppState extends _$AppState {
   }
 
   void returnCardOnDragCancel(CardData cardData) {
+    if (cardData.lastColumnIndex == PlayColumns.freecell.index) {}
     List<List<CardData>> newPlayColumnState = List.from(state.playColumns);
     newPlayColumnState[cardData.lastColumnIndex].add(cardData);
     state = state.copyWith(playColumns: newPlayColumnState);

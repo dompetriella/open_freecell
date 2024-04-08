@@ -16,7 +16,6 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AppStateData {
-  List<List<CardData>> get freecells => throw _privateConstructorUsedError;
   List<List<CardData>> get completedPiles => throw _privateConstructorUsedError;
   List<List<CardData>> get playColumns => throw _privateConstructorUsedError;
 
@@ -32,9 +31,7 @@ abstract class $AppStateDataCopyWith<$Res> {
       _$AppStateDataCopyWithImpl<$Res, AppStateData>;
   @useResult
   $Res call(
-      {List<List<CardData>> freecells,
-      List<List<CardData>> completedPiles,
-      List<List<CardData>> playColumns});
+      {List<List<CardData>> completedPiles, List<List<CardData>> playColumns});
 }
 
 /// @nodoc
@@ -50,15 +47,10 @@ class _$AppStateDataCopyWithImpl<$Res, $Val extends AppStateData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? freecells = null,
     Object? completedPiles = null,
     Object? playColumns = null,
   }) {
     return _then(_value.copyWith(
-      freecells: null == freecells
-          ? _value.freecells
-          : freecells // ignore: cast_nullable_to_non_nullable
-              as List<List<CardData>>,
       completedPiles: null == completedPiles
           ? _value.completedPiles
           : completedPiles // ignore: cast_nullable_to_non_nullable
@@ -80,9 +72,7 @@ abstract class _$$AppStateDataImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<List<CardData>> freecells,
-      List<List<CardData>> completedPiles,
-      List<List<CardData>> playColumns});
+      {List<List<CardData>> completedPiles, List<List<CardData>> playColumns});
 }
 
 /// @nodoc
@@ -96,15 +86,10 @@ class __$$AppStateDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? freecells = null,
     Object? completedPiles = null,
     Object? playColumns = null,
   }) {
     return _then(_$AppStateDataImpl(
-      freecells: null == freecells
-          ? _value._freecells
-          : freecells // ignore: cast_nullable_to_non_nullable
-              as List<List<CardData>>,
       completedPiles: null == completedPiles
           ? _value._completedPiles
           : completedPiles // ignore: cast_nullable_to_non_nullable
@@ -121,21 +106,10 @@ class __$$AppStateDataImplCopyWithImpl<$Res>
 
 class _$AppStateDataImpl implements _AppStateData {
   _$AppStateDataImpl(
-      {final List<List<CardData>> freecells = const [],
-      final List<List<CardData>> completedPiles = const [],
+      {final List<List<CardData>> completedPiles = const [],
       final List<List<CardData>> playColumns = const []})
-      : _freecells = freecells,
-        _completedPiles = completedPiles,
+      : _completedPiles = completedPiles,
         _playColumns = playColumns;
-
-  final List<List<CardData>> _freecells;
-  @override
-  @JsonKey()
-  List<List<CardData>> get freecells {
-    if (_freecells is EqualUnmodifiableListView) return _freecells;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_freecells);
-  }
 
   final List<List<CardData>> _completedPiles;
   @override
@@ -157,7 +131,7 @@ class _$AppStateDataImpl implements _AppStateData {
 
   @override
   String toString() {
-    return 'AppStateData(freecells: $freecells, completedPiles: $completedPiles, playColumns: $playColumns)';
+    return 'AppStateData(completedPiles: $completedPiles, playColumns: $playColumns)';
   }
 
   @override
@@ -165,8 +139,6 @@ class _$AppStateDataImpl implements _AppStateData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AppStateDataImpl &&
-            const DeepCollectionEquality()
-                .equals(other._freecells, _freecells) &&
             const DeepCollectionEquality()
                 .equals(other._completedPiles, _completedPiles) &&
             const DeepCollectionEquality()
@@ -176,7 +148,6 @@ class _$AppStateDataImpl implements _AppStateData {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_freecells),
       const DeepCollectionEquality().hash(_completedPiles),
       const DeepCollectionEquality().hash(_playColumns));
 
@@ -189,12 +160,9 @@ class _$AppStateDataImpl implements _AppStateData {
 
 abstract class _AppStateData implements AppStateData {
   factory _AppStateData(
-      {final List<List<CardData>> freecells,
-      final List<List<CardData>> completedPiles,
+      {final List<List<CardData>> completedPiles,
       final List<List<CardData>> playColumns}) = _$AppStateDataImpl;
 
-  @override
-  List<List<CardData>> get freecells;
   @override
   List<List<CardData>> get completedPiles;
   @override

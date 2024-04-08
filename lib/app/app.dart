@@ -12,6 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 double GLOBAL_cardHeight = 135;
 double GLOBAL_cardWidth = 100;
+int GLOBAL_playColumnNumber = 8;
 
 class App extends ConsumerWidget {
   const App({super.key});
