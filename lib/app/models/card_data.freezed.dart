@@ -19,7 +19,7 @@ mixin _$CardData {
   int get id => throw _privateConstructorUsedError;
   Suits get suit => throw _privateConstructorUsedError;
   int get value => throw _privateConstructorUsedError;
-  int? get lastColumnIndex => throw _privateConstructorUsedError;
+  int get lastColumnIndex => throw _privateConstructorUsedError;
   bool get isExpanded => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -33,7 +33,7 @@ abstract class $CardDataCopyWith<$Res> {
       _$CardDataCopyWithImpl<$Res, CardData>;
   @useResult
   $Res call(
-      {int id, Suits suit, int value, int? lastColumnIndex, bool isExpanded});
+      {int id, Suits suit, int value, int lastColumnIndex, bool isExpanded});
 }
 
 /// @nodoc
@@ -52,7 +52,7 @@ class _$CardDataCopyWithImpl<$Res, $Val extends CardData>
     Object? id = null,
     Object? suit = null,
     Object? value = null,
-    Object? lastColumnIndex = freezed,
+    Object? lastColumnIndex = null,
     Object? isExpanded = null,
   }) {
     return _then(_value.copyWith(
@@ -68,10 +68,10 @@ class _$CardDataCopyWithImpl<$Res, $Val extends CardData>
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as int,
-      lastColumnIndex: freezed == lastColumnIndex
+      lastColumnIndex: null == lastColumnIndex
           ? _value.lastColumnIndex
           : lastColumnIndex // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       isExpanded: null == isExpanded
           ? _value.isExpanded
           : isExpanded // ignore: cast_nullable_to_non_nullable
@@ -89,7 +89,7 @@ abstract class _$$CardDataImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id, Suits suit, int value, int? lastColumnIndex, bool isExpanded});
+      {int id, Suits suit, int value, int lastColumnIndex, bool isExpanded});
 }
 
 /// @nodoc
@@ -106,7 +106,7 @@ class __$$CardDataImplCopyWithImpl<$Res>
     Object? id = null,
     Object? suit = null,
     Object? value = null,
-    Object? lastColumnIndex = freezed,
+    Object? lastColumnIndex = null,
     Object? isExpanded = null,
   }) {
     return _then(_$CardDataImpl(
@@ -122,10 +122,10 @@ class __$$CardDataImplCopyWithImpl<$Res>
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as int,
-      lastColumnIndex: freezed == lastColumnIndex
+      lastColumnIndex: null == lastColumnIndex
           ? _value.lastColumnIndex
           : lastColumnIndex // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       isExpanded: null == isExpanded
           ? _value.isExpanded
           : isExpanded // ignore: cast_nullable_to_non_nullable
@@ -141,7 +141,7 @@ class _$CardDataImpl implements _CardData {
       {required this.id,
       required this.suit,
       required this.value,
-      this.lastColumnIndex = null,
+      required this.lastColumnIndex,
       this.isExpanded = false});
 
   @override
@@ -151,8 +151,7 @@ class _$CardDataImpl implements _CardData {
   @override
   final int value;
   @override
-  @JsonKey()
-  final int? lastColumnIndex;
+  final int lastColumnIndex;
   @override
   @JsonKey()
   final bool isExpanded;
@@ -192,7 +191,7 @@ abstract class _CardData implements CardData {
       {required final int id,
       required final Suits suit,
       required final int value,
-      final int? lastColumnIndex,
+      required final int lastColumnIndex,
       final bool isExpanded}) = _$CardDataImpl;
 
   @override
@@ -202,7 +201,7 @@ abstract class _CardData implements CardData {
   @override
   int get value;
   @override
-  int? get lastColumnIndex;
+  int get lastColumnIndex;
   @override
   bool get isExpanded;
   @override

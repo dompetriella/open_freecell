@@ -38,10 +38,9 @@ class PlayingCard extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var appState = ref.watch(appStateProvider);
+    var appStateActions = ref.watch(appStateProvider.notifier);
 
     String cardName = _setCardName(cardData);
-
-    var cardsMoveableState = useState([cardData]);
 
     Color getBorderColor() {
       if (isExpanded == false) {
@@ -55,15 +54,22 @@ class PlayingCard extends HookConsumerWidget {
     }
 
     List<CardData> getCardsAvailableToMove() {
-      if (cardData.lastColumnIndex == null) {
+      int column = cardData.lastColumnIndex;
+      int cardIndexInPlayColumn = appState.playColumns[column]
+          .indexWhere((element) => element.id == cardData.id);
+
+      // Check if card is found in playColumns
+      if (cardIndexInPlayColumn == -1) {
         return [cardData];
       }
-      int column = cardData.lastColumnIndex!;
-      int cardIndexInPlayColumn = appState
-          .playColumns[cardData.lastColumnIndex!]
-          .indexWhere((element) => element.id == cardData.id);
-      List<CardData> availableCards =
-          appState.playColumns[column].sublist(cardIndexInPlayColumn);
+
+      List<CardData> availableCards = [];
+
+      for (var i = cardIndexInPlayColumn;
+          i < appState.playColumns[column].length;
+          i++) {
+        availableCards.add(appState.playColumns[column][i]);
+      }
       print(availableCards);
       return availableCards;
     }
@@ -74,6 +80,9 @@ class PlayingCard extends HookConsumerWidget {
       offset: Offset(0, -3.0 * (index ?? 0)),
       child: Draggable<List<CardData>>(
         data: moveableCards,
+        onDragStarted: () {
+          appStateActions.removeCardFromPlayColumn(cardData);
+        },
         feedback: PlayingCardDraggableColumn(cardData: moveableCards),
         childWhenDragging: SizedBox.shrink(),
         child: Container(
