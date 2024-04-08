@@ -98,7 +98,7 @@ class PlayingCard extends HookConsumerWidget {
           appStateActions.removeCardFromPlayColumn(cardData);
         },
         onDraggableCanceled: (velocity, offset) {
-          appStateActions.returnCardBackToPlayColumn(cardData);
+          appStateActions.returnCardOnDragCancel(cardData);
         },
         feedback: PlayingCardDraggableColumn(cardData: moveableCards),
         childWhenDragging: SizedBox.shrink(),
