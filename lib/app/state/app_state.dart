@@ -62,18 +62,17 @@ class AppState extends _$AppState {
     state = state.copyWith(playColumns: newFreeCellState);
   }
 
-  void removeCardFromPlayColumn(CardData cardData) {
+  void removeCardsFromPlayColumn(List<CardData> cardData) {
     List<List<CardData>> newPlayColumnState = List.from(state.playColumns);
-    for (var column in newPlayColumnState) {
-      column.removeWhere((element) => element.id == cardData.id);
-    }
+    List<int> removalIds = cardData.map((e) => e.id).toList();
+    newPlayColumnState[cardData.first.lastColumnIndex]
+        .removeWhere((element) => removalIds.contains(element.id));
     state = state.copyWith(playColumns: newPlayColumnState);
   }
 
-  void returnCardOnDragCancel(CardData cardData) {
-    if (cardData.lastColumnIndex == PlayColumns.freecell.index) {}
+  void returnCardsOnDragCancel(List<CardData> cardData) {
     List<List<CardData>> newPlayColumnState = List.from(state.playColumns);
-    newPlayColumnState[cardData.lastColumnIndex].add(cardData);
+    newPlayColumnState[cardData.first.lastColumnIndex].addAll(cardData);
     state = state.copyWith(playColumns: newPlayColumnState);
   }
 }

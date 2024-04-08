@@ -18,18 +18,21 @@ class FreecellSlot extends HookConsumerWidget {
 
     return DragTarget(
       onAcceptWithDetails: (DragTargetDetails<List<CardData>> details) {
-        if (details.data.length == 1 &&
-            appState.playColumns[freecellIndex].isEmpty) {
-          appStateActions.addCardToFreecell(details.data.first, freecellIndex);
+        appStateActions.addCardToFreecell(details.data.first, freecellIndex);
+      },
+      onWillAcceptWithDetails: (DragTargetDetails<List<CardData>> details) {
+        if (details.data.length > 1 || contents.isNotEmpty) {
+          return false;
         }
+        return true;
       },
       builder: (context, candidateData, rejectedData) {
         return Container(
           height: GLOBAL_cardHeight,
-          width: GLOBAL_cardWidth,
+          width: GLOBAL_cardWidth * 1.1,
           decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(8),
               border: Border.all(color: Colors.white, width: 3)),
           child: contents.isNotEmpty
               ? PlayingCard(

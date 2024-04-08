@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:truly_freecell/app/app.dart';
 import 'package:truly_freecell/app/models/card_data.dart';
 import 'package:truly_freecell/app/models/enums.dart';
 import 'package:truly_freecell/app/state/app_state.dart';
@@ -84,8 +85,12 @@ class PlayingCard extends HookConsumerWidget {
           i++) {
         availableCards.add(appState.playColumns[column][i]);
       }
-      print(availableCards);
       return availableCards;
+    }
+
+    bool isCardDraggable(WidgetRef ref, int? index, int column) {
+      //TODO: write code to see if the card is draggable
+      return true;
     }
 
     List<CardData> moveableCards = getCardsAvailableToMove();
@@ -94,17 +99,23 @@ class PlayingCard extends HookConsumerWidget {
       offset: Offset(0, -3.0 * (index ?? 0)),
       child: Draggable<List<CardData>>(
         data: moveableCards,
+        maxSimultaneousDrags: isCardDraggable(ref, index, column) ? 1 : 0,
         onDragStarted: () {
-          appStateActions.removeCardFromPlayColumn(cardData);
+          appStateActions.removeCardsFromPlayColumn(moveableCards);
         },
         onDraggableCanceled: (velocity, offset) {
-          appStateActions.returnCardOnDragCancel(cardData);
+          appStateActions.returnCardsOnDragCancel(moveableCards);
+        },
+        onDragEnd: (details) {
+          if (details.wasAccepted == false) {
+            appStateActions.returnCardsOnDragCancel(moveableCards);
+          }
         },
         feedback: PlayingCardDraggableColumn(cardData: moveableCards),
         childWhenDragging: SizedBox.shrink(),
         child: Container(
           height: isExpanded ? 120 : 40,
-          width: 85,
+          width: GLOBAL_cardWidth,
           decoration: BoxDecoration(
               color: Colors.white,
               boxShadow: [
@@ -216,79 +227,80 @@ class PlayingCardDraggablePreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: isExpanded ? 120 : 40,
-      width: 85,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-                color: Colors.black.withOpacity(.25),
-                offset: Offset(0, -2),
-                blurRadius: 5,
-                spreadRadius: 2)
-          ],
-          border: Border.all(
-            width: 3,
-            color: suit.color,
-          ),
-          borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(isExpanded ? 5 : 0),
-              bottomRight: Radius.circular(isExpanded ? 5 : 0),
-              topLeft: Radius.circular(5),
-              topRight: Radius.circular(5))),
-      child: isExpanded
-          ? Column(
-              children: [
-                Flexible(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: suit.color,
-                    ),
-                    child: Center(
-                      child: Text(
-                        cardName,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 36,
-                            fontWeight: FontWeight.bold),
+    return DefaultTextStyle(
+      style: TextStyle(
+          color: Colors.white, fontSize: 36, fontWeight: FontWeight.bold),
+      child: Container(
+        height: isExpanded ? 120 : 40,
+        width: 85,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black.withOpacity(.25),
+                  offset: Offset(0, -2),
+                  blurRadius: 5,
+                  spreadRadius: 2)
+            ],
+            border: Border.all(
+              width: 3,
+              color: suit.color,
+            ),
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(isExpanded ? 5 : 0),
+                bottomRight: Radius.circular(isExpanded ? 5 : 0),
+                topLeft: Radius.circular(5),
+                topRight: Radius.circular(5))),
+        child: isExpanded
+            ? Column(
+                children: [
+                  Flexible(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: suit.color,
+                      ),
+                      child: Center(
+                        child: Text(
+                          cardName,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Flexible(
-                    child: Container(
-                  decoration: BoxDecoration(color: Colors.white),
-                  child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SvgPicture.asset(
-                        suit.image,
-                        colorFilter:
-                            ColorFilter.mode(suit.color, BlendMode.srcIn),
-                      )),
-                ))
-              ],
-            )
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  cardName,
-                  style: TextStyle(color: Colors.black, fontSize: 24),
-                ),
-                SizedBox(
-                  width: 4,
-                ),
-                SizedBox(
-                  height: 25,
-                  width: 25,
-                  child: SvgPicture.asset(
-                    suit.image,
-                    colorFilter: ColorFilter.mode(suit.color, BlendMode.srcIn),
+                  Flexible(
+                      child: Container(
+                    decoration: BoxDecoration(color: Colors.white),
+                    child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SvgPicture.asset(
+                          suit.image,
+                          colorFilter:
+                              ColorFilter.mode(suit.color, BlendMode.srcIn),
+                        )),
+                  ))
+                ],
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    cardName,
+                    style: TextStyle(color: Colors.black, fontSize: 24),
                   ),
-                )
-              ],
-            ),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  SizedBox(
+                    height: 25,
+                    width: 25,
+                    child: SvgPicture.asset(
+                      suit.image,
+                      colorFilter:
+                          ColorFilter.mode(suit.color, BlendMode.srcIn),
+                    ),
+                  )
+                ],
+              ),
+      ),
     );
   }
 }

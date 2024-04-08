@@ -20,10 +20,10 @@ class CompletedCardSlot extends StatelessWidget {
       children: [
         Container(
             height: GLOBAL_cardHeight,
-            width: GLOBAL_cardWidth,
+            width: GLOBAL_cardWidth * 1.1,
             decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: Colors.white, width: 3)),
             child: Center(
               child: SizedBox(

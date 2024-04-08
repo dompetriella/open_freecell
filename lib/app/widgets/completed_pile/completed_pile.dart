@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:truly_freecell/app/models/enums.dart';
 import 'package:truly_freecell/app/state/app_state.dart';
-import 'package:truly_freecell/app/widgets/card_slot.dart';
+import 'package:truly_freecell/app/widgets/completed_card_slot.dart';
 
 class CompletedCardsBar extends ConsumerWidget {
   const CompletedCardsBar({

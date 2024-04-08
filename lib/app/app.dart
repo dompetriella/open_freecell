@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:truly_freecell/app/models/card_data.dart';
 import 'package:truly_freecell/app/models/enums.dart';
 import 'package:truly_freecell/app/state/app_state.dart';
-import 'package:truly_freecell/app/widgets/card_slot.dart';
+import 'package:truly_freecell/app/widgets/completed_card_slot.dart';
 import 'package:truly_freecell/app/widgets/completed_pile/completed_pile.dart';
 import 'package:truly_freecell/app/widgets/freecell/freecell.dart';
 import 'package:truly_freecell/app/widgets/options/options.dart';
@@ -10,8 +10,8 @@ import 'package:truly_freecell/app/widgets/play_area/play_area.dart';
 import 'package:truly_freecell/app/widgets/playing_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-double GLOBAL_cardHeight = 135;
-double GLOBAL_cardWidth = 100;
+double GLOBAL_cardHeight = 128;
+double GLOBAL_cardWidth = 85;
 int GLOBAL_playColumnNumber = 8;
 
 class App extends ConsumerWidget {
