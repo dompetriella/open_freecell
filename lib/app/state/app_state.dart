@@ -55,7 +55,9 @@ class AppState extends _$AppState {
   void addCardToFreecell(CardData cardData, int freecellIndex) {
     List<List<CardData>> newFreeCellState = List.from(state.freecells);
 
-    List<CardData> newIndexedFreecell = [cardData];
+    CardData newCardData =
+        cardData.copyWith(lastColumnIndex: PlayColumns.freecell.index);
+    List<CardData> newIndexedFreecell = [newCardData];
     newFreeCellState[freecellIndex] = newIndexedFreecell;
 
     state = state.copyWith(freecells: newFreeCellState);
@@ -66,9 +68,10 @@ class AppState extends _$AppState {
     for (var column in newPlayColumnState) {
       column.removeWhere((element) => element.id == cardData.id);
     }
+    state = state.copyWith(playColumns: newPlayColumnState);
   }
 
-  void returnCardBackToPlayColumn(CardData cardData) {
+  void returnCardOnDragCancel(CardData cardData) {
     List<List<CardData>> newPlayColumnState = List.from(state.playColumns);
     newPlayColumnState[cardData.lastColumnIndex].add(cardData);
     state = state.copyWith(playColumns: newPlayColumnState);

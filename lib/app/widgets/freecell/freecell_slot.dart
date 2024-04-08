@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:truly_freecell/app/app.dart';
 import 'package:truly_freecell/app/models/card_data.dart';
+import 'package:truly_freecell/app/models/enums.dart';
 import 'package:truly_freecell/app/state/app_state.dart';
 import 'package:truly_freecell/app/widgets/playing_card.dart';
 
@@ -33,8 +34,7 @@ class FreecellSlot extends HookConsumerWidget {
           child: contents.isNotEmpty
               ? PlayingCard(
                   cardData: contents.first,
-                  isExpanded: true,
-                  inPlayColumn: false,
+                  column: PlayColumns.freecell.index,
                 )
               : null,
         );

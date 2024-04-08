@@ -1,8 +1,4 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:truly_freecell/app/models/card_data.dart';
@@ -23,17 +19,28 @@ String _setCardName(CardData cardData) {
   }
 }
 
+bool _getExpandedStatus(WidgetRef ref, int column, CardData cardData) {
+  if (column == PlayColumns.freecell.index ||
+      column == PlayColumns.completedPile.index) {
+    return true;
+  }
+
+  var appState = ref.watch(appStateProvider);
+  int index = appState.playColumns[column]
+      .indexWhere((element) => element.id == cardData.id);
+  int columnLength = appState.playColumns[column].length - 1;
+  if (index == columnLength) {
+    return true;
+  }
+  return false;
+}
+
 class PlayingCard extends HookConsumerWidget {
   final CardData cardData;
-  final bool isExpanded;
   final int? index;
-  final bool inPlayColumn;
+  final int column;
   const PlayingCard(
-      {super.key,
-      required this.cardData,
-      required this.isExpanded,
-      this.inPlayColumn = true,
-      this.index});
+      {super.key, required this.cardData, required this.column, this.index});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -41,6 +48,9 @@ class PlayingCard extends HookConsumerWidget {
     var appStateActions = ref.watch(appStateProvider.notifier);
 
     String cardName = _setCardName(cardData);
+    bool isExpanded = _getExpandedStatus(ref, column, cardData);
+    bool inPlayColumn = column != PlayColumns.completedPile.index ||
+        column != PlayColumns.freecell.index;
 
     Color getBorderColor() {
       if (isExpanded == false) {
@@ -55,6 +65,10 @@ class PlayingCard extends HookConsumerWidget {
 
     List<CardData> getCardsAvailableToMove() {
       int column = cardData.lastColumnIndex;
+      if (column == PlayColumns.freecell.index ||
+          column == PlayColumns.completedPile.index) {
+        return [cardData];
+      }
       int cardIndexInPlayColumn = appState.playColumns[column]
           .indexWhere((element) => element.id == cardData.id);
 
@@ -82,6 +96,9 @@ class PlayingCard extends HookConsumerWidget {
         data: moveableCards,
         onDragStarted: () {
           appStateActions.removeCardFromPlayColumn(cardData);
+        },
+        onDraggableCanceled: (velocity, offset) {
+          appStateActions.returnCardBackToPlayColumn(cardData);
         },
         feedback: PlayingCardDraggableColumn(cardData: moveableCards),
         childWhenDragging: SizedBox.shrink(),

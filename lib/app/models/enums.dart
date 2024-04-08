@@ -20,5 +20,6 @@ enum PlayColumns {
   playColumn6,
   playColumn7,
   playColumn8,
-  freecell
+  freecell,
+  completedPile
 }
