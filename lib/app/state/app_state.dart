@@ -1,5 +1,6 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:truly_freecell/app/app.dart';
+import 'package:truly_freecell/app/globals/globals.dart';
 import 'package:truly_freecell/app/models/app_state_data.dart';
 import 'package:truly_freecell/app/models/card_data.dart';
 import 'package:truly_freecell/app/models/enums.dart';
@@ -60,6 +61,10 @@ class AppState extends _$AppState {
     newFreeCellState[freecellIndex] = newIndexedFreecell;
 
     state = state.copyWith(playColumns: newFreeCellState);
+  }
+
+  restartGame() {
+    state = dealInitialDeck();
   }
 
   void addCardToCompletedPile(CardData cardData) {

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:truly_freecell/app/globals/globals.dart';
 import 'package:truly_freecell/app/models/enums.dart';
 import 'package:truly_freecell/app/state/app_state.dart';
-import 'package:truly_freecell/app/widgets/completed_card_slot.dart';
+import 'package:truly_freecell/app/widgets/completed_pile/completed_card_slot.dart';
 
 class CompletedCardsBar extends ConsumerWidget {
   const CompletedCardsBar({
@@ -12,22 +13,23 @@ class CompletedCardsBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var appState = ref.watch(appStateProvider);
-    return Flexible(
-        child: Container(
+    return Container(
       color: Colors.white.withOpacity(.1),
-      constraints: BoxConstraints(minWidth: 200),
       child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            for (int i = 0; i < appState.completedPiles.length; i++)
-              CompletedCardSlot(
-                completedPileIndex: i,
-                suit: Suits.values[i],
-              )
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: GLOBAL_cardWidth / 3),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              for (int i = 0; i < appState.completedPiles.length; i++)
+                CompletedCardSlot(
+                  completedPileIndex: i,
+                  suit: Suits.values[i],
+                )
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }
