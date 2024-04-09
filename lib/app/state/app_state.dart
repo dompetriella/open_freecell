@@ -62,6 +62,25 @@ class AppState extends _$AppState {
     state = state.copyWith(playColumns: newFreeCellState);
   }
 
+  void addCardToCompletedPile(CardData cardData) {
+    List<List<CardData>> newCompletedPileState =
+        List.from(state.completedPiles);
+
+    newCompletedPileState[cardData.suit.index].add(
+        cardData.copyWith(lastColumnIndex: PlayColumns.completedPile.index));
+    state = state.copyWith(completedPiles: newCompletedPileState);
+  }
+
+  void addCardsToPlayColumn(List<CardData> cardData, int columnIndex) {
+    List<List<CardData>> newPlayColumnState = List.from(state.playColumns);
+
+    List<CardData> newCardData =
+        cardData.map((e) => e.copyWith(lastColumnIndex: columnIndex)).toList();
+
+    newPlayColumnState[columnIndex].addAll(newCardData);
+    state = state.copyWith(playColumns: newPlayColumnState);
+  }
+
   void removeCardsFromPlayColumn(List<CardData> cardData) {
     List<List<CardData>> newPlayColumnState = List.from(state.playColumns);
     List<int> removalIds = cardData.map((e) => e.id).toList();

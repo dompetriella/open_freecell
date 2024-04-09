@@ -88,18 +88,66 @@ class PlayingCard extends HookConsumerWidget {
       return availableCards;
     }
 
-    bool isCardDraggable(WidgetRef ref, int? index, int column) {
-      //TODO: write code to see if the card is draggable
-      return true;
+    bool isCardDraggable(
+        WidgetRef ref, int? index, int column, bool isLastCard) {
+      // completed cards can't move
+      if (column == PlayColumns.completedPile.index) {
+        return false;
+      }
+      // freecell cards can always be dragged
+      if (column >= PlayColumns.freecell.index &&
+          column <= PlayColumns.freecell4.index) {
+        return true;
+      }
+
+      if (isLastCard) {
+        return true;
+      }
+
+      bool cardStackViabilityCheck = true;
+      var currentColumn = appState.playColumns[column];
+
+      for (var i = index!; i < currentColumn.length; i++) {
+        int index1 = i;
+        int index2 = i + 1;
+
+        if (index2 <= currentColumn.length - 1) {
+          if (currentColumn[index2].value != currentColumn[index1].value - 1 ||
+              currentColumn[index2].suit.index % 2 ==
+                  currentColumn[index1].suit.index % 2) {
+            cardStackViabilityCheck = false;
+          }
+        }
+      }
+
+      return cardStackViabilityCheck;
+    }
+
+    bool canCardBeCompleted(bool lastCard, CardData data, WidgetRef ref) {
+      if (lastCard) {
+        var appState = ref.watch(appStateProvider);
+        List<CardData> completedPile = appState.completedPiles[data.suit.index];
+        if (completedPile.isEmpty && data.value == 1) {
+          return true;
+        }
+        if (completedPile.isEmpty && data.value != 1) {
+          return false;
+        }
+        if (completedPile.last.value == data.value - 1) {
+          return true;
+        }
+      }
+      return false;
     }
 
     List<CardData> moveableCards = getCardsAvailableToMove();
+    bool isDraggable = isCardDraggable(ref, index, column, isExpanded);
 
     return Transform.translate(
       offset: Offset(0, -3.0 * (index ?? 0)),
       child: Draggable<List<CardData>>(
         data: moveableCards,
-        maxSimultaneousDrags: isCardDraggable(ref, index, column) ? 1 : 0,
+        maxSimultaneousDrags: isDraggable ? 1 : 0,
         onDragStarted: () {
           appStateActions.removeCardsFromPlayColumn(moveableCards);
         },
@@ -113,83 +161,97 @@ class PlayingCard extends HookConsumerWidget {
         },
         feedback: PlayingCardDraggableColumn(cardData: moveableCards),
         childWhenDragging: SizedBox.shrink(),
-        child: Container(
-          height: isExpanded ? 120 : 40,
-          width: GLOBAL_cardWidth,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black.withOpacity(.25),
-                    offset: Offset(0, -2),
-                    blurRadius: 5,
-                    spreadRadius: 2)
-              ],
-              border: Border.all(
-                width: 3,
-                color: getBorderColor(),
-              ),
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(isExpanded ? 5 : 0),
-                  bottomRight: Radius.circular(isExpanded ? 5 : 0),
-                  topLeft: Radius.circular(5),
-                  topRight: Radius.circular(5))),
-          child: isExpanded
-              ? Column(
-                  children: [
-                    Flexible(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: cardData.suit.color,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(inPlayColumn ? 5 : 0),
-                              topRight: Radius.circular(inPlayColumn ? 5 : 0)),
-                        ),
-                        child: Center(
-                          child: Text(
-                            cardName,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 36,
-                                fontWeight: FontWeight.bold),
+        child: MouseRegion(
+          cursor:
+              isDraggable ? SystemMouseCursors.click : SystemMouseCursors.basic,
+          child: GestureDetector(
+            onDoubleTap: () {
+              if (canCardBeCompleted(isExpanded, cardData, ref)) {
+                appStateActions.removeCardsFromPlayColumn([cardData]);
+                appStateActions.addCardToCompletedPile(cardData);
+              }
+            },
+            child: Container(
+              height: isExpanded ? 120 : 40,
+              width: GLOBAL_cardWidth,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black.withOpacity(.25),
+                        offset: Offset(0, -2),
+                        blurRadius: 5,
+                        spreadRadius: 2)
+                  ],
+                  border: Border.all(
+                    width: 3,
+                    color: getBorderColor(),
+                  ),
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(isExpanded ? 5 : 0),
+                      bottomRight: Radius.circular(isExpanded ? 5 : 0),
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.circular(5))),
+              child: isExpanded
+                  ? Column(
+                      children: [
+                        Flexible(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: cardData.suit.color,
+                              borderRadius: BorderRadius.only(
+                                  topLeft:
+                                      Radius.circular(inPlayColumn ? 5 : 0),
+                                  topRight:
+                                      Radius.circular(inPlayColumn ? 5 : 0)),
+                            ),
+                            child: Center(
+                              child: Text(
+                                cardName,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 36,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    Flexible(
-                        child: Container(
-                      decoration: BoxDecoration(color: Colors.white),
-                      child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                        Flexible(
+                            child: Container(
+                          decoration: BoxDecoration(color: Colors.white),
+                          child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SvgPicture.asset(
+                                cardData.suit.image,
+                                colorFilter: ColorFilter.mode(
+                                    cardData.suit.color, BlendMode.srcIn),
+                              )),
+                        ))
+                      ],
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          cardName,
+                          style: TextStyle(color: Colors.black, fontSize: 24),
+                        ),
+                        SizedBox(
+                          width: 4,
+                        ),
+                        SizedBox(
+                          height: 25,
+                          width: 25,
                           child: SvgPicture.asset(
                             cardData.suit.image,
                             colorFilter: ColorFilter.mode(
                                 cardData.suit.color, BlendMode.srcIn),
-                          )),
-                    ))
-                  ],
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      cardName,
-                      style: TextStyle(color: Colors.black, fontSize: 24),
+                          ),
+                        )
+                      ],
                     ),
-                    SizedBox(
-                      width: 4,
-                    ),
-                    SizedBox(
-                      height: 25,
-                      width: 25,
-                      child: SvgPicture.asset(
-                        cardData.suit.image,
-                        colorFilter: ColorFilter.mode(
-                            cardData.suit.color, BlendMode.srcIn),
-                      ),
-                    )
-                  ],
-                ),
+            ),
+          ),
         ),
       ),
     );
@@ -209,6 +271,7 @@ class PlayingCardDraggableColumn extends StatelessWidget {
           PlayingCardDraggablePreview(
               cardName: _setCardName(cardData[i]),
               suit: cardData[i].suit,
+              index: i,
               isExpanded: i == cardData.length - 1)
       ],
     );
@@ -218,11 +281,13 @@ class PlayingCardDraggableColumn extends StatelessWidget {
 class PlayingCardDraggablePreview extends StatelessWidget {
   final String cardName;
   final Suits suit;
+  final int index;
   final bool isExpanded;
   const PlayingCardDraggablePreview(
       {super.key,
       required this.cardName,
       required this.suit,
+      required this.index,
       required this.isExpanded});
 
   @override
@@ -230,76 +295,79 @@ class PlayingCardDraggablePreview extends StatelessWidget {
     return DefaultTextStyle(
       style: TextStyle(
           color: Colors.white, fontSize: 36, fontWeight: FontWeight.bold),
-      child: Container(
-        height: isExpanded ? 120 : 40,
-        width: 85,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black.withOpacity(.25),
-                  offset: Offset(0, -2),
-                  blurRadius: 5,
-                  spreadRadius: 2)
-            ],
-            border: Border.all(
-              width: 3,
-              color: suit.color,
-            ),
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(isExpanded ? 5 : 0),
-                bottomRight: Radius.circular(isExpanded ? 5 : 0),
-                topLeft: Radius.circular(5),
-                topRight: Radius.circular(5))),
-        child: isExpanded
-            ? Column(
-                children: [
-                  Flexible(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: suit.color,
-                      ),
-                      child: Center(
-                        child: Text(
-                          cardName,
+      child: Transform.translate(
+        offset: Offset(0, -3.0 * index),
+        child: Container(
+          height: isExpanded ? 120 : 40,
+          width: 85,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black.withOpacity(.25),
+                    offset: Offset(0, -2),
+                    blurRadius: 5,
+                    spreadRadius: 2)
+              ],
+              border: Border.all(
+                width: 3,
+                color: suit.color,
+              ),
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(isExpanded ? 5 : 0),
+                  bottomRight: Radius.circular(isExpanded ? 5 : 0),
+                  topLeft: Radius.circular(5),
+                  topRight: Radius.circular(5))),
+          child: isExpanded
+              ? Column(
+                  children: [
+                    Flexible(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: suit.color,
+                        ),
+                        child: Center(
+                          child: Text(
+                            cardName,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Flexible(
-                      child: Container(
-                    decoration: BoxDecoration(color: Colors.white),
-                    child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SvgPicture.asset(
-                          suit.image,
-                          colorFilter:
-                              ColorFilter.mode(suit.color, BlendMode.srcIn),
-                        )),
-                  ))
-                ],
-              )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    cardName,
-                    style: TextStyle(color: Colors.black, fontSize: 24),
-                  ),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  SizedBox(
-                    height: 25,
-                    width: 25,
-                    child: SvgPicture.asset(
-                      suit.image,
-                      colorFilter:
-                          ColorFilter.mode(suit.color, BlendMode.srcIn),
+                    Flexible(
+                        child: Container(
+                      decoration: BoxDecoration(color: Colors.white),
+                      child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SvgPicture.asset(
+                            suit.image,
+                            colorFilter:
+                                ColorFilter.mode(suit.color, BlendMode.srcIn),
+                          )),
+                    ))
+                  ],
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      cardName,
+                      style: TextStyle(color: Colors.black, fontSize: 24),
                     ),
-                  )
-                ],
-              ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    SizedBox(
+                      height: 25,
+                      width: 25,
+                      child: SvgPicture.asset(
+                        suit.image,
+                        colorFilter:
+                            ColorFilter.mode(suit.color, BlendMode.srcIn),
+                      ),
+                    )
+                  ],
+                ),
+        ),
       ),
     );
   }

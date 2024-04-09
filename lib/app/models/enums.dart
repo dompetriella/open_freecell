@@ -12,7 +12,7 @@ enum Suits {
 }
 
 enum PlayColumns {
-  playColumn1,
+  playColumn,
   playColumn2,
   playColumn3,
   playColumn4,
@@ -21,5 +21,8 @@ enum PlayColumns {
   playColumn7,
   playColumn8,
   freecell,
+  freecell2,
+  freecell3,
+  freecell4,
   completedPile
 }

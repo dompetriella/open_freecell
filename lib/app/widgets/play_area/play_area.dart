@@ -40,24 +40,43 @@ class PlayColumn extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var gameState = ref.watch(appStateProvider);
-    var gameStateActions = ref.watch(appStateProvider.notifier);
+    var appState = ref.watch(appStateProvider);
+    var appStateActions = ref.watch(appStateProvider.notifier);
     var isHovering = useState(false);
 
     return DragTarget<List<CardData>>(
       onWillAcceptWithDetails: (details) {
+        bool willAccept = false;
+
         if (details.data.last.lastColumnIndex != columnIndex) {
           isHovering.value = true;
-          return false;
+          willAccept = false;
         }
 
-        return false;
+        if (appState.playColumns[columnIndex].isEmpty) {
+          willAccept = true;
+        }
+
+        // checks if the number is lower than the last value in column
+        // then checks if the suit enum indexes DONT match
+        // hearts AND diamonds % 2 will be 0
+        if (appState.playColumns[columnIndex].isNotEmpty) {
+          if (appState.playColumns[columnIndex].last.value ==
+                  details.data.first.value + 1 &&
+              appState.playColumns[columnIndex].last.suit.index % 2 !=
+                  details.data.first.suit.index % 2) {
+            willAccept = true;
+          }
+        }
+
+        return willAccept;
       },
       onLeave: (data) {
         isHovering.value = false;
       },
       onAcceptWithDetails: (details) {
         isHovering.value = false;
+        appStateActions.addCardsToPlayColumn(details.data, columnIndex);
       },
       builder: (context, candidateData, rejectedData) {
         return Padding(
@@ -67,7 +86,7 @@ class PlayColumn extends HookConsumerWidget {
                 ? Colors.lightBlue
                 : Colors.white.withOpacity(columnIndex * .1),
             child: Column(
-              children: gameState.playColumns[columnIndex].isEmpty
+              children: appState.playColumns[columnIndex].isEmpty
                   ? [
                       SizedBox(
                         width: GLOBAL_cardWidth,
@@ -75,10 +94,10 @@ class PlayColumn extends HookConsumerWidget {
                     ]
                   : [
                       for (int j = 0;
-                          j < gameState.playColumns[columnIndex].length;
+                          j < appState.playColumns[columnIndex].length;
                           j++)
                         PlayingCard(
-                          cardData: gameState.playColumns[columnIndex][j],
+                          cardData: appState.playColumns[columnIndex][j],
                           column: columnIndex,
                           index: j,
                         )
