@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:truly_freecell/app/globals/globals.dart';
@@ -61,23 +62,22 @@ class PlayColumn extends HookConsumerWidget {
                 ? Colors.white.withOpacity(0.25)
                 : Colors.transparent,
             child: Column(
-              children: appState.playColumns[columnIndex].isEmpty
-                  ? [
-                      const SizedBox(
-                        width: GLOBAL_cardWidth,
-                      )
-                    ]
-                  : [
-                      for (int j = 0;
-                          j < appState.playColumns[columnIndex].length;
-                          j++)
-                        PlayingCard(
-                          cardData: appState.playColumns[columnIndex][j],
-                          column: columnIndex,
-                          index: j,
+                children: appState.playColumns[columnIndex].isEmpty
+                    ? [
+                        const SizedBox(
+                          width: GLOBAL_cardWidth,
                         )
-                    ],
-            ),
+                      ]
+                    : [
+                        for (int j = 0;
+                            j < appState.playColumns[columnIndex].length;
+                            j++)
+                          PlayingCard(
+                            cardData: appState.playColumns[columnIndex][j],
+                            column: columnIndex,
+                            index: j,
+                          )
+                      ]),
           ),
         );
       },

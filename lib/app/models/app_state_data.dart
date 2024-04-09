@@ -5,8 +5,10 @@ part 'app_state_data.freezed.dart';
 
 @freezed
 class AppStateData with _$AppStateData {
-  factory AppStateData({
-    @Default([]) List<List<CardData>> completedPiles,
-    @Default([]) List<List<CardData>> playColumns,
-  }) = _AppStateData;
+  factory AppStateData(
+      {@Default([]) List<List<CardData>> completedPiles,
+      @Default([]) List<List<CardData>> playColumns,
+      @Default([]) List<List<CardData>> undoCompletedPiles,
+      @Default([]) List<List<CardData>> undoPlayColumns,
+      @Default(false) bool gameIsWon}) = _AppStateData;
 }

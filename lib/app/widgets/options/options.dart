@@ -12,7 +12,7 @@ class OptionsBar extends ConsumerWidget {
     var appStateActions = ref.watch(appStateProvider.notifier);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 24.0),
+      padding: const EdgeInsets.only(top: 24.0, bottom: 48),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -23,11 +23,18 @@ class OptionsBar extends ConsumerWidget {
             },
             buttonText: 'New Game',
           ),
-          OptionsElevatedButton(
-            icon: Icons.settings,
-            onPressed: () {},
-            buttonText: 'Options',
-          )
+          // OptionsElevatedButton(
+          //   icon: Icons.undo,
+          //   onPressed: () {
+          //     appStateActions.undoLastMove();
+          //   },
+          //   buttonText: 'Undo',
+          // ),
+          // OptionsElevatedButton(
+          //   icon: Icons.settings,
+          //   onPressed: () {},
+          //   buttonText: 'Options',
+          // ),
         ],
       ),
     );
@@ -52,18 +59,19 @@ class OptionsElevatedButton extends StatelessWidget {
       child: ElevatedButton(
           onPressed: onPressed,
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
                 icon,
                 size: 36,
-                color: Colors.white,
+                color: Colors.black,
               ),
               SizedBox(
                 width: 10,
               ),
               Text(
                 buttonText,
-                style: TextStyle(fontSize: 36, color: Colors.white),
+                style: TextStyle(fontSize: 36, color: Colors.black),
               ),
             ],
           )),

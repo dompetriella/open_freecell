@@ -74,7 +74,7 @@ class RootPlayingCard extends StatelessWidget {
   const RootPlayingCard({
     super.key,
     required this.isExpanded,
-    required this.index,
+    this.index,
     required this.cardData,
     this.inPlayColumn = true,
     required this.cardName,

@@ -53,7 +53,31 @@ class AppState extends _$AppState {
         completedPiles: completedPiles, playColumns: playColumns);
   }
 
+  void setUndoState() {
+    List<List<CardData>> oldPlayColumns = List.from(state.playColumns);
+    List<List<CardData>> oldCompletedPile = List.from(state.completedPiles);
+    state = state.copyWith(
+        undoCompletedPiles: oldCompletedPile, undoPlayColumns: oldPlayColumns);
+  }
+
+  void undoLastMove() {
+    List<List<CardData>> oldPlayColumns = List.from(state.undoPlayColumns);
+    List<List<CardData>> oldCompletedPile = List.from(state.undoCompletedPiles);
+    state = state.copyWith(
+        completedPiles: oldCompletedPile, playColumns: oldPlayColumns);
+  }
+
+  restartGame() {
+    state = dealInitialDeck();
+    state = state.copyWith(gameIsWon: false);
+  }
+
+  winGame() {
+    state = state.copyWith(gameIsWon: true);
+  }
+
   void addCardToFreecell(CardData cardData, int freecellIndex) {
+    setUndoState();
     List<List<CardData>> newFreeCellState = List.from(state.playColumns);
 
     CardData newCardData = cardData.copyWith(lastColumnIndex: freecellIndex);
@@ -61,13 +85,17 @@ class AppState extends _$AppState {
     newFreeCellState[freecellIndex] = newIndexedFreecell;
 
     state = state.copyWith(playColumns: newFreeCellState);
-  }
-
-  restartGame() {
-    state = dealInitialDeck();
+    var wonState = true;
+    for (var completedPiles in state.completedPiles) {
+      if (completedPiles.last.value != 13) {
+        wonState = false;
+      }
+    }
+    state = state.copyWith(gameIsWon: wonState);
   }
 
   void addCardToCompletedPile(CardData cardData) {
+    setUndoState();
     List<List<CardData>> newCompletedPileState =
         List.from(state.completedPiles);
 
@@ -77,6 +105,7 @@ class AppState extends _$AppState {
   }
 
   void addCardsToPlayColumn(List<CardData> cardData, int columnIndex) {
+    setUndoState();
     List<List<CardData>> newPlayColumnState = List.from(state.playColumns);
 
     List<CardData> newCardData =
@@ -87,6 +116,7 @@ class AppState extends _$AppState {
   }
 
   void removeCardsFromPlayColumn(List<CardData> cardData) {
+    setUndoState();
     List<List<CardData>> newPlayColumnState = List.from(state.playColumns);
     List<int> removalIds = cardData.map((e) => e.id).toList();
     newPlayColumnState[cardData.first.lastColumnIndex]
@@ -95,6 +125,7 @@ class AppState extends _$AppState {
   }
 
   void returnCardsOnDragCancel(List<CardData> cardData) {
+    setUndoState();
     List<List<CardData>> newPlayColumnState = List.from(state.playColumns);
     newPlayColumnState[cardData.first.lastColumnIndex].addAll(cardData);
     state = state.copyWith(playColumns: newPlayColumnState);

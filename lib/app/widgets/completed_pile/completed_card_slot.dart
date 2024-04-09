@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:truly_freecell/app/globals/globals.dart';
@@ -31,13 +32,15 @@ class CompletedCardSlot extends ConsumerWidget {
                   child: SvgPicture.asset(
                     suit.image,
                     colorFilter: ColorFilter.mode(
-                        Colors.white.withOpacity(0.25), BlendMode.srcIn),
+                        Colors.white.withOpacity(0.50), BlendMode.srcIn),
                   )),
             )),
         for (int i = 0; i < appState.completedPiles[suit.index].length; i++)
           PlayingCard(
-              cardData: appState.completedPiles[suit.index][i],
-              column: PlayColumns.completedPile.index)
+                  cardData: appState.completedPiles[suit.index][i],
+                  column: PlayColumns.completedPile.index)
+              .animate()
+              .shimmer(duration: 500.ms)
       ],
     );
   }
