@@ -21,7 +21,7 @@ class WinModal extends ConsumerWidget {
       backgroundColor: Colors.black,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
-          side: BorderSide(color: Colors.red, width: 50)),
+          side: BorderSide(color: Colors.white, width: 8)),
       child: Container(
         width: 800,
         height: 500,
@@ -42,7 +42,7 @@ class WinModal extends ConsumerWidget {
                 children: [
                   for (int i = 0; i < 4; i++)
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 2.0),
                       child: RootPlayingCard(
                           isExpanded: true,
                           cardData: CardData(
@@ -54,7 +54,7 @@ class WinModal extends ConsumerWidget {
                     )
                 ]
                     .animate(delay: 800.ms, interval: 500.ms)
-                    .slideY(curve: Curves.easeInOut)),
+                    .slideY(curve: Curves.easeInOut, begin: -0.6)),
             SizedBox(
               height: 30,
             ),
@@ -62,7 +62,7 @@ class WinModal extends ConsumerWidget {
                     onPressed: () {
                       appStateActions.restartGame();
                     },
-                    buttonText: 'New Game',
+                    buttonText: 'Start New Game',
                     icon: Icons.style)
                 .animate(delay: 3000.ms)
                 .fadeIn(curve: Curves.easeInOut, duration: 800.ms)

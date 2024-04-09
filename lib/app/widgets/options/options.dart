@@ -35,6 +35,13 @@ class OptionsBar extends ConsumerWidget {
           //   onPressed: () {},
           //   buttonText: 'Options',
           // ),
+          OptionsElevatedButton(
+            icon: Icons.wind_power,
+            onPressed: () {
+              appStateActions.winGame();
+            },
+            buttonText: 'Win',
+          ),
         ],
       ),
     );
