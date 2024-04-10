@@ -85,13 +85,6 @@ class AppState extends _$AppState {
     newFreeCellState[freecellIndex] = newIndexedFreecell;
 
     state = state.copyWith(playColumns: newFreeCellState);
-    // var wonState = true;
-    // for (var completedPiles in state.completedPiles) {
-    //   if (completedPiles.last.value != 13) {
-    //     wonState = false;
-    //   }
-    // }
-    // state = state.copyWith(gameIsWon: wonState);
   }
 
   void addCardToCompletedPile(CardData cardData) {
@@ -102,6 +95,16 @@ class AppState extends _$AppState {
     newCompletedPileState[cardData.suit.index].add(
         cardData.copyWith(lastColumnIndex: PlayColumns.completedPile.index));
     state = state.copyWith(completedPiles: newCompletedPileState);
+    var wonState = true;
+
+    for (var completedPile in state.completedPiles) {
+      if (completedPile.isNotEmpty) {
+        if (completedPile.last.value != 13) {
+          wonState = false;
+        }
+      }
+    }
+    state = state.copyWith(gameIsWon: wonState);
   }
 
   void addCardsToPlayColumn(List<CardData> cardData, int columnIndex) {
