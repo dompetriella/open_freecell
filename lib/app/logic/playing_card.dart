@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:truly_freecell/app/models/card_data.dart';
-import 'package:truly_freecell/app/models/enums.dart';
-import 'package:truly_freecell/app/state/app_state.dart';
+import 'package:open_freecell/app/models/card_data.dart';
+import 'package:open_freecell/app/models/enums.dart';
+import 'package:open_freecell/app/state/app_state.dart';
 
 String setCardName(CardData cardData) {
   if (cardData.value > 1 && cardData.value < 11) {

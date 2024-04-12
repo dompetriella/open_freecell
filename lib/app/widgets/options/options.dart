@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:truly_freecell/app/state/app_state.dart';
+import 'package:open_freecell/app/state/app_state.dart';
 
 class OptionsBar extends ConsumerWidget {
   const OptionsBar({

@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:truly_freecell/app/globals/globals.dart';
-import 'package:truly_freecell/app/models/app_state_data.dart';
-import 'package:truly_freecell/app/models/card_data.dart';
-import 'package:truly_freecell/app/models/enums.dart';
+import 'package:open_freecell/app/globals/globals.dart';
+import 'package:open_freecell/app/models/app_state_data.dart';
+import 'package:open_freecell/app/models/card_data.dart';
+import 'package:open_freecell/app/models/enums.dart';
 
 part 'app_state.g.dart';
 

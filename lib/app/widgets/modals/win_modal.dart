@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:truly_freecell/app/models/card_data.dart';
-import 'package:truly_freecell/app/models/enums.dart';
-import 'package:truly_freecell/app/state/app_state.dart';
-import 'package:truly_freecell/app/widgets/cards/playing_card.dart';
-import 'package:truly_freecell/app/widgets/options/options.dart';
+import 'package:open_freecell/app/models/card_data.dart';
+import 'package:open_freecell/app/models/enums.dart';
+import 'package:open_freecell/app/state/app_state.dart';
+import 'package:open_freecell/app/widgets/cards/playing_card.dart';
+import 'package:open_freecell/app/widgets/options/options.dart';
 
 class WinModal extends ConsumerWidget {
   const WinModal({

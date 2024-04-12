@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:truly_freecell/app/globals/globals.dart';
-import 'package:truly_freecell/app/widgets/play_area/play_column.dart';
+import 'package:open_freecell/app/globals/globals.dart';
+import 'package:open_freecell/app/widgets/play_area/play_column.dart';
 
 class PlayArea extends StatelessWidget {
   const PlayArea({

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:truly_freecell/app/models/enums.dart';
+import 'package:open_freecell/app/models/enums.dart';
 
 part 'card_data.freezed.dart';
 

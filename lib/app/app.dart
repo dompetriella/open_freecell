@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:truly_freecell/app/models/card_data.dart';
-import 'package:truly_freecell/app/models/enums.dart';
-import 'package:truly_freecell/app/state/app_state.dart';
-import 'package:truly_freecell/app/widgets/cards/playing_card.dart';
-import 'package:truly_freecell/app/widgets/completed_pile/completed_pile.dart';
-import 'package:truly_freecell/app/widgets/freecell/freecell.dart';
-import 'package:truly_freecell/app/widgets/modals/win_modal.dart';
-import 'package:truly_freecell/app/widgets/options/options.dart';
-import 'package:truly_freecell/app/widgets/play_area/play_area.dart';
+import 'package:open_freecell/app/models/card_data.dart';
+import 'package:open_freecell/app/models/enums.dart';
+import 'package:open_freecell/app/state/app_state.dart';
+import 'package:open_freecell/app/widgets/cards/playing_card.dart';
+import 'package:open_freecell/app/widgets/completed_pile/completed_pile.dart';
+import 'package:open_freecell/app/widgets/freecell/freecell.dart';
+import 'package:open_freecell/app/widgets/modals/win_modal.dart';
+import 'package:open_freecell/app/widgets/options/options.dart';
+import 'package:open_freecell/app/widgets/play_area/play_area.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class App extends ConsumerWidget {

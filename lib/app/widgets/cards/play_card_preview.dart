@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:truly_freecell/app/logic/playing_card.dart';
-import 'package:truly_freecell/app/models/card_data.dart';
-import 'package:truly_freecell/app/widgets/cards/playing_card.dart';
+import 'package:open_freecell/app/logic/playing_card.dart';
+import 'package:open_freecell/app/models/card_data.dart';
+import 'package:open_freecell/app/widgets/cards/playing_card.dart';
 
 class PlayingCardDraggableColumn extends StatelessWidget {
   final List<CardData> cardData;

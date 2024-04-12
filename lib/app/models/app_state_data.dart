@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:truly_freecell/app/models/card_data.dart';
+import 'package:open_freecell/app/models/card_data.dart';
 
 part 'app_state_data.freezed.dart';
 

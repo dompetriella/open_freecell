@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:truly_freecell/app/globals/globals.dart';
-import 'package:truly_freecell/app/models/enums.dart';
-import 'package:truly_freecell/app/state/app_state.dart';
-import 'package:truly_freecell/app/widgets/completed_pile/completed_card_slot.dart';
+import 'package:open_freecell/app/globals/globals.dart';
+import 'package:open_freecell/app/models/enums.dart';
+import 'package:open_freecell/app/state/app_state.dart';
+import 'package:open_freecell/app/widgets/completed_pile/completed_card_slot.dart';
 
 class CompletedCardsBar extends ConsumerWidget {
   const CompletedCardsBar({

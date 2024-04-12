@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:truly_freecell/app/globals/globals.dart';
-import 'package:truly_freecell/app/models/enums.dart';
-import 'package:truly_freecell/app/state/app_state.dart';
-import 'package:truly_freecell/app/widgets/cards/playing_card.dart';
+import 'package:open_freecell/app/globals/globals.dart';
+import 'package:open_freecell/app/models/enums.dart';
+import 'package:open_freecell/app/state/app_state.dart';
+import 'package:open_freecell/app/widgets/cards/playing_card.dart';
 
 class CompletedCardSlot extends ConsumerWidget {
   final int completedPileIndex;

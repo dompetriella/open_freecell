@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:truly_freecell/app/app.dart';
-import 'package:truly_freecell/app/theme.dart';
+import 'package:open_freecell/app/app.dart';
+import 'package:open_freecell/app/theme.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:truly_freecell/app/globals/globals.dart';
-import 'package:truly_freecell/app/logic/playing_card.dart';
-import 'package:truly_freecell/app/models/card_data.dart';
-import 'package:truly_freecell/app/models/enums.dart';
-import 'package:truly_freecell/app/state/app_state.dart';
-import 'package:truly_freecell/app/widgets/cards/play_card_preview.dart';
+import 'package:open_freecell/app/globals/globals.dart';
+import 'package:open_freecell/app/logic/playing_card.dart';
+import 'package:open_freecell/app/models/card_data.dart';
+import 'package:open_freecell/app/models/enums.dart';
+import 'package:open_freecell/app/state/app_state.dart';
+import 'package:open_freecell/app/widgets/cards/play_card_preview.dart';
 
 class PlayingCard extends HookConsumerWidget {
   final CardData cardData;
