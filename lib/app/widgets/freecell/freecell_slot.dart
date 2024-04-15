@@ -21,7 +21,8 @@ class FreecellSlot extends HookConsumerWidget {
 
     return DragTarget(
       onAcceptWithDetails: (DragTargetDetails<List<CardData>> details) {
-        appStateActions.addCardToFreecell(details.data.first, freecellIndex);
+        appStateActions.addCardToFreecell(
+            details.data.first, freecellIndex, ref);
       },
       onWillAcceptWithDetails: (DragTargetDetails<List<CardData>> details) {
         if (details.data.length > 1 || contents.isNotEmpty) {

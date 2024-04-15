@@ -1,4 +1,6 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:open_freecell/app/logic/playing_card.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:open_freecell/app/globals/globals.dart';
 import 'package:open_freecell/app/models/app_state_data.dart';
@@ -97,7 +99,7 @@ class AppState extends _$AppState {
     state = state.copyWith(gameIsWon: true);
   }
 
-  void addCardToFreecell(CardData cardData, int freecellIndex) {
+  void addCardToFreecell(CardData cardData, int freecellIndex, WidgetRef ref) {
     List<List<CardData>> newFreeCellState =
         createDeepCopyOfCardList(state.playColumns);
 
@@ -106,6 +108,7 @@ class AppState extends _$AppState {
     newFreeCellState[freecellIndex] = newIndexedFreecell;
 
     state = state.copyWith(playColumns: newFreeCellState);
+    searchAndAddAvailableCardsToCompletedPiles(ref);
   }
 
   void addCardToCompletedPile(CardData cardData) {
@@ -127,7 +130,8 @@ class AppState extends _$AppState {
     state = state.copyWith(gameIsWon: wonState);
   }
 
-  void addCardsToPlayColumn(List<CardData> cardData, int columnIndex) {
+  void addCardsToPlayColumn(
+      List<CardData> cardData, int columnIndex, WidgetRef ref) {
     List<List<CardData>> newPlayColumnState = [];
 
     for (List<CardData> column in state.playColumns) {
@@ -139,6 +143,32 @@ class AppState extends _$AppState {
 
     newPlayColumnState[columnIndex].addAll(newCardData);
     state = state.copyWith(playColumns: newPlayColumnState);
+    searchAndAddAvailableCardsToCompletedPiles(ref);
+  }
+
+  void searchAndAddAvailableCardsToCompletedPiles(WidgetRef ref) async {
+    while (true) {
+      List<List<CardData>> newPlayableState =
+          createDeepCopyOfCardList(state.playColumns);
+      List<CardData> cardsToBeCompleted = [];
+      for (var column in newPlayableState) {
+        if (column.isNotEmpty) {
+          bool isCompletable = canCardBeCompleted(true, column.last, ref);
+          if (isCompletable) {
+            cardsToBeCompleted.add(column.last);
+          }
+        }
+      }
+      if (cardsToBeCompleted.isNotEmpty) {
+        for (var card in cardsToBeCompleted) {
+          removeCardsFromPlayColumn([card]);
+          addCardToCompletedPile(card);
+          await Future.delayed(400.ms);
+        }
+      } else {
+        break;
+      }
+    }
   }
 
   void removeCardsFromPlayColumn(List<CardData> cardData) {

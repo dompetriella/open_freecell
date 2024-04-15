@@ -52,7 +52,7 @@ class PlayColumn extends HookConsumerWidget {
       },
       onAcceptWithDetails: (details) {
         isHovering.value = false;
-        appStateActions.addCardsToPlayColumn(details.data, columnIndex);
+        appStateActions.addCardsToPlayColumn(details.data, columnIndex, ref);
       },
       builder: (context, candidateData, rejectedData) {
         return Padding(
