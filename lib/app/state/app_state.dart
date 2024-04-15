@@ -53,18 +53,39 @@ class AppState extends _$AppState {
         completedPiles: completedPiles, playColumns: playColumns);
   }
 
+  List<List<CardData>> createDeepCopyOfCardList(List<List<CardData>> cards) {
+    List<List<CardData>> newList = [];
+    for (var column in cards) {
+      List<CardData> newColumn = [];
+      for (var card in column) {
+        newColumn.add(card);
+      }
+      newList.add(newColumn);
+    }
+    return newList;
+  }
+
   void setUndoState() {
-    List<List<CardData>> oldPlayColumns = List.from(state.playColumns);
-    List<List<CardData>> oldCompletedPile = List.from(state.completedPiles);
+    List<List<CardData>> oldPlayColumns =
+        createDeepCopyOfCardList(state.playColumns);
+    List<List<CardData>> oldCompletedPile =
+        createDeepCopyOfCardList(state.completedPiles);
     state = state.copyWith(
-        undoCompletedPiles: oldCompletedPile, undoPlayColumns: oldPlayColumns);
+        undoCompletedPiles: oldCompletedPile,
+        undoPlayColumns: oldPlayColumns,
+        undoEnabled: true);
   }
 
   void undoLastMove() {
-    List<List<CardData>> oldPlayColumns = List.from(state.undoPlayColumns);
-    List<List<CardData>> oldCompletedPile = List.from(state.undoCompletedPiles);
+    List<List<CardData>> oldPlayColumns =
+        createDeepCopyOfCardList(state.undoPlayColumns);
+
+    List<List<CardData>> oldCompletedPile =
+        createDeepCopyOfCardList(state.undoCompletedPiles);
     state = state.copyWith(
-        completedPiles: oldCompletedPile, playColumns: oldPlayColumns);
+        completedPiles: oldCompletedPile,
+        playColumns: oldPlayColumns,
+        undoEnabled: false);
   }
 
   restartGame() {
@@ -77,8 +98,8 @@ class AppState extends _$AppState {
   }
 
   void addCardToFreecell(CardData cardData, int freecellIndex) {
-    setUndoState();
-    List<List<CardData>> newFreeCellState = List.from(state.playColumns);
+    List<List<CardData>> newFreeCellState =
+        createDeepCopyOfCardList(state.playColumns);
 
     CardData newCardData = cardData.copyWith(lastColumnIndex: freecellIndex);
     List<CardData> newIndexedFreecell = [newCardData];
@@ -88,9 +109,8 @@ class AppState extends _$AppState {
   }
 
   void addCardToCompletedPile(CardData cardData) {
-    setUndoState();
     List<List<CardData>> newCompletedPileState =
-        List.from(state.completedPiles);
+        createDeepCopyOfCardList(state.completedPiles);
 
     newCompletedPileState[cardData.suit.index].add(
         cardData.copyWith(lastColumnIndex: PlayColumns.completedPile.index));
@@ -108,8 +128,11 @@ class AppState extends _$AppState {
   }
 
   void addCardsToPlayColumn(List<CardData> cardData, int columnIndex) {
-    setUndoState();
-    List<List<CardData>> newPlayColumnState = List.from(state.playColumns);
+    List<List<CardData>> newPlayColumnState = [];
+
+    for (List<CardData> column in state.playColumns) {
+      newPlayColumnState.add(List.from(column));
+    }
 
     List<CardData> newCardData =
         cardData.map((e) => e.copyWith(lastColumnIndex: columnIndex)).toList();
@@ -120,7 +143,8 @@ class AppState extends _$AppState {
 
   void removeCardsFromPlayColumn(List<CardData> cardData) {
     setUndoState();
-    List<List<CardData>> newPlayColumnState = List.from(state.playColumns);
+    List<List<CardData>> newPlayColumnState =
+        createDeepCopyOfCardList(state.playColumns);
     List<int> removalIds = cardData.map((e) => e.id).toList();
     newPlayColumnState[cardData.first.lastColumnIndex]
         .removeWhere((element) => removalIds.contains(element.id));
@@ -128,8 +152,8 @@ class AppState extends _$AppState {
   }
 
   void returnCardsOnDragCancel(List<CardData> cardData) {
-    setUndoState();
-    List<List<CardData>> newPlayColumnState = List.from(state.playColumns);
+    List<List<CardData>> newPlayColumnState =
+        createDeepCopyOfCardList(state.playColumns);
     newPlayColumnState[cardData.first.lastColumnIndex].addAll(cardData);
     state = state.copyWith(playColumns: newPlayColumnState);
   }

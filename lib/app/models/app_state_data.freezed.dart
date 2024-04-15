@@ -22,6 +22,7 @@ mixin _$AppStateData {
       throw _privateConstructorUsedError;
   List<List<CardData>> get undoPlayColumns =>
       throw _privateConstructorUsedError;
+  bool get undoEnabled => throw _privateConstructorUsedError;
   bool get gameIsWon => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -40,6 +41,7 @@ abstract class $AppStateDataCopyWith<$Res> {
       List<List<CardData>> playColumns,
       List<List<CardData>> undoCompletedPiles,
       List<List<CardData>> undoPlayColumns,
+      bool undoEnabled,
       bool gameIsWon});
 }
 
@@ -60,6 +62,7 @@ class _$AppStateDataCopyWithImpl<$Res, $Val extends AppStateData>
     Object? playColumns = null,
     Object? undoCompletedPiles = null,
     Object? undoPlayColumns = null,
+    Object? undoEnabled = null,
     Object? gameIsWon = null,
   }) {
     return _then(_value.copyWith(
@@ -79,6 +82,10 @@ class _$AppStateDataCopyWithImpl<$Res, $Val extends AppStateData>
           ? _value.undoPlayColumns
           : undoPlayColumns // ignore: cast_nullable_to_non_nullable
               as List<List<CardData>>,
+      undoEnabled: null == undoEnabled
+          ? _value.undoEnabled
+          : undoEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
       gameIsWon: null == gameIsWon
           ? _value.gameIsWon
           : gameIsWon // ignore: cast_nullable_to_non_nullable
@@ -100,6 +107,7 @@ abstract class _$$AppStateDataImplCopyWith<$Res>
       List<List<CardData>> playColumns,
       List<List<CardData>> undoCompletedPiles,
       List<List<CardData>> undoPlayColumns,
+      bool undoEnabled,
       bool gameIsWon});
 }
 
@@ -118,6 +126,7 @@ class __$$AppStateDataImplCopyWithImpl<$Res>
     Object? playColumns = null,
     Object? undoCompletedPiles = null,
     Object? undoPlayColumns = null,
+    Object? undoEnabled = null,
     Object? gameIsWon = null,
   }) {
     return _then(_$AppStateDataImpl(
@@ -137,6 +146,10 @@ class __$$AppStateDataImplCopyWithImpl<$Res>
           ? _value._undoPlayColumns
           : undoPlayColumns // ignore: cast_nullable_to_non_nullable
               as List<List<CardData>>,
+      undoEnabled: null == undoEnabled
+          ? _value.undoEnabled
+          : undoEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
       gameIsWon: null == gameIsWon
           ? _value.gameIsWon
           : gameIsWon // ignore: cast_nullable_to_non_nullable
@@ -153,6 +166,7 @@ class _$AppStateDataImpl implements _AppStateData {
       final List<List<CardData>> playColumns = const [],
       final List<List<CardData>> undoCompletedPiles = const [],
       final List<List<CardData>> undoPlayColumns = const [],
+      this.undoEnabled = false,
       this.gameIsWon = false})
       : _completedPiles = completedPiles,
         _playColumns = playColumns,
@@ -198,11 +212,14 @@ class _$AppStateDataImpl implements _AppStateData {
 
   @override
   @JsonKey()
+  final bool undoEnabled;
+  @override
+  @JsonKey()
   final bool gameIsWon;
 
   @override
   String toString() {
-    return 'AppStateData(completedPiles: $completedPiles, playColumns: $playColumns, undoCompletedPiles: $undoCompletedPiles, undoPlayColumns: $undoPlayColumns, gameIsWon: $gameIsWon)';
+    return 'AppStateData(completedPiles: $completedPiles, playColumns: $playColumns, undoCompletedPiles: $undoCompletedPiles, undoPlayColumns: $undoPlayColumns, undoEnabled: $undoEnabled, gameIsWon: $gameIsWon)';
   }
 
   @override
@@ -218,6 +235,8 @@ class _$AppStateDataImpl implements _AppStateData {
                 .equals(other._undoCompletedPiles, _undoCompletedPiles) &&
             const DeepCollectionEquality()
                 .equals(other._undoPlayColumns, _undoPlayColumns) &&
+            (identical(other.undoEnabled, undoEnabled) ||
+                other.undoEnabled == undoEnabled) &&
             (identical(other.gameIsWon, gameIsWon) ||
                 other.gameIsWon == gameIsWon));
   }
@@ -229,6 +248,7 @@ class _$AppStateDataImpl implements _AppStateData {
       const DeepCollectionEquality().hash(_playColumns),
       const DeepCollectionEquality().hash(_undoCompletedPiles),
       const DeepCollectionEquality().hash(_undoPlayColumns),
+      undoEnabled,
       gameIsWon);
 
   @JsonKey(ignore: true)
@@ -244,6 +264,7 @@ abstract class _AppStateData implements AppStateData {
       final List<List<CardData>> playColumns,
       final List<List<CardData>> undoCompletedPiles,
       final List<List<CardData>> undoPlayColumns,
+      final bool undoEnabled,
       final bool gameIsWon}) = _$AppStateDataImpl;
 
   @override
@@ -254,6 +275,8 @@ abstract class _AppStateData implements AppStateData {
   List<List<CardData>> get undoCompletedPiles;
   @override
   List<List<CardData>> get undoPlayColumns;
+  @override
+  bool get undoEnabled;
   @override
   bool get gameIsWon;
   @override

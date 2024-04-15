@@ -10,6 +10,7 @@ class OptionsBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var appStateActions = ref.watch(appStateProvider.notifier);
+    var appState = ref.watch(appStateProvider);
 
     return Padding(
       padding: const EdgeInsets.only(top: 24.0, bottom: 48),
@@ -23,13 +24,14 @@ class OptionsBar extends ConsumerWidget {
             },
             buttonText: 'New Game',
           ),
-          // OptionsElevatedButton(
-          //   icon: Icons.undo,
-          //   onPressed: () {
-          //     appStateActions.undoLastMove();
-          //   },
-          //   buttonText: 'Undo',
-          // ),
+          OptionsElevatedButton(
+            icon: Icons.undo,
+            enabled: appState.undoEnabled,
+            onPressed: () {
+              appStateActions.undoLastMove();
+            },
+            buttonText: 'Undo',
+          ),
           // OptionsElevatedButton(
           //   icon: Icons.settings,
           //   onPressed: () {},
@@ -52,10 +54,12 @@ class OptionsElevatedButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String buttonText;
   final IconData icon;
+  final bool enabled;
   const OptionsElevatedButton({
     required this.onPressed,
     required this.buttonText,
     required this.icon,
+    this.enabled = true,
     super.key,
   });
 
@@ -64,7 +68,7 @@ class OptionsElevatedButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: ElevatedButton(
-          onPressed: onPressed,
+          onPressed: enabled ? onPressed : null,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
