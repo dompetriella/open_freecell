@@ -16,6 +16,10 @@ class CompletedCardSlot extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var appState = ref.watch(appStateProvider);
+
+    double cardLengthsToCenter =
+        (MediaQuery.sizeOf(context).width / 2) / GLOBAL_cardWidth;
+    print(cardLengthsToCenter);
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -40,6 +44,11 @@ class CompletedCardSlot extends ConsumerWidget {
                   cardData: appState.completedPiles[suit.index][i],
                   column: PlayColumns.completedPile.index)
               .animate()
+              .slide(
+                  begin: Offset(cardLengthsToCenter / 2, 0),
+                  duration: 500.ms,
+                  curve: Curves.decelerate)
+              .then()
               .shimmer(duration: 500.ms)
       ],
     );

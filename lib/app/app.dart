@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:open_freecell/app/models/card_data.dart';
@@ -29,19 +31,17 @@ class App extends ConsumerWidget {
               fit: BoxFit.fill,
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Stack(
             children: [
-              CompletedCardsBar(),
-              Flexible(
-                child: Column(
-                  children: [
-                    OptionsBar(),
-                    PlayArea(),
-                  ],
-                ),
+              Column(
+                children: [
+                  OptionsBar(),
+                  PlayArea(),
+                ],
               ),
-              FreeCellBar(),
+              Positioned(right: 0, bottom: 0, top: 0, child: FreeCellBar()),
+              Positioned(
+                  left: 0, top: 0, bottom: 0, child: CompletedCardsBar()),
             ],
           ),
           if (appState.gameIsWon)
