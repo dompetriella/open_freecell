@@ -10,6 +10,7 @@ class AppStateData with _$AppStateData {
       @Default([]) List<List<CardData>> playColumns,
       @Default([]) List<List<CardData>> undoCompletedPiles,
       @Default([]) List<List<CardData>> undoPlayColumns,
+      @Default(false) isAutocompleting,
       @Default(false) bool undoEnabled,
       @Default(false) bool gameIsWon}) = _AppStateData;
 }

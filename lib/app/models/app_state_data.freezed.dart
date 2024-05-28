@@ -22,6 +22,7 @@ mixin _$AppStateData {
       throw _privateConstructorUsedError;
   List<List<CardData>> get undoPlayColumns =>
       throw _privateConstructorUsedError;
+  dynamic get isAutocompleting => throw _privateConstructorUsedError;
   bool get undoEnabled => throw _privateConstructorUsedError;
   bool get gameIsWon => throw _privateConstructorUsedError;
 
@@ -41,6 +42,7 @@ abstract class $AppStateDataCopyWith<$Res> {
       List<List<CardData>> playColumns,
       List<List<CardData>> undoCompletedPiles,
       List<List<CardData>> undoPlayColumns,
+      dynamic isAutocompleting,
       bool undoEnabled,
       bool gameIsWon});
 }
@@ -62,6 +64,7 @@ class _$AppStateDataCopyWithImpl<$Res, $Val extends AppStateData>
     Object? playColumns = null,
     Object? undoCompletedPiles = null,
     Object? undoPlayColumns = null,
+    Object? isAutocompleting = freezed,
     Object? undoEnabled = null,
     Object? gameIsWon = null,
   }) {
@@ -82,6 +85,10 @@ class _$AppStateDataCopyWithImpl<$Res, $Val extends AppStateData>
           ? _value.undoPlayColumns
           : undoPlayColumns // ignore: cast_nullable_to_non_nullable
               as List<List<CardData>>,
+      isAutocompleting: freezed == isAutocompleting
+          ? _value.isAutocompleting
+          : isAutocompleting // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       undoEnabled: null == undoEnabled
           ? _value.undoEnabled
           : undoEnabled // ignore: cast_nullable_to_non_nullable
@@ -107,6 +114,7 @@ abstract class _$$AppStateDataImplCopyWith<$Res>
       List<List<CardData>> playColumns,
       List<List<CardData>> undoCompletedPiles,
       List<List<CardData>> undoPlayColumns,
+      dynamic isAutocompleting,
       bool undoEnabled,
       bool gameIsWon});
 }
@@ -126,6 +134,7 @@ class __$$AppStateDataImplCopyWithImpl<$Res>
     Object? playColumns = null,
     Object? undoCompletedPiles = null,
     Object? undoPlayColumns = null,
+    Object? isAutocompleting = freezed,
     Object? undoEnabled = null,
     Object? gameIsWon = null,
   }) {
@@ -146,6 +155,9 @@ class __$$AppStateDataImplCopyWithImpl<$Res>
           ? _value._undoPlayColumns
           : undoPlayColumns // ignore: cast_nullable_to_non_nullable
               as List<List<CardData>>,
+      isAutocompleting: freezed == isAutocompleting
+          ? _value.isAutocompleting!
+          : isAutocompleting,
       undoEnabled: null == undoEnabled
           ? _value.undoEnabled
           : undoEnabled // ignore: cast_nullable_to_non_nullable
@@ -166,6 +178,7 @@ class _$AppStateDataImpl implements _AppStateData {
       final List<List<CardData>> playColumns = const [],
       final List<List<CardData>> undoCompletedPiles = const [],
       final List<List<CardData>> undoPlayColumns = const [],
+      this.isAutocompleting = false,
       this.undoEnabled = false,
       this.gameIsWon = false})
       : _completedPiles = completedPiles,
@@ -212,6 +225,9 @@ class _$AppStateDataImpl implements _AppStateData {
 
   @override
   @JsonKey()
+  final dynamic isAutocompleting;
+  @override
+  @JsonKey()
   final bool undoEnabled;
   @override
   @JsonKey()
@@ -219,7 +235,7 @@ class _$AppStateDataImpl implements _AppStateData {
 
   @override
   String toString() {
-    return 'AppStateData(completedPiles: $completedPiles, playColumns: $playColumns, undoCompletedPiles: $undoCompletedPiles, undoPlayColumns: $undoPlayColumns, undoEnabled: $undoEnabled, gameIsWon: $gameIsWon)';
+    return 'AppStateData(completedPiles: $completedPiles, playColumns: $playColumns, undoCompletedPiles: $undoCompletedPiles, undoPlayColumns: $undoPlayColumns, isAutocompleting: $isAutocompleting, undoEnabled: $undoEnabled, gameIsWon: $gameIsWon)';
   }
 
   @override
@@ -235,6 +251,8 @@ class _$AppStateDataImpl implements _AppStateData {
                 .equals(other._undoCompletedPiles, _undoCompletedPiles) &&
             const DeepCollectionEquality()
                 .equals(other._undoPlayColumns, _undoPlayColumns) &&
+            const DeepCollectionEquality()
+                .equals(other.isAutocompleting, isAutocompleting) &&
             (identical(other.undoEnabled, undoEnabled) ||
                 other.undoEnabled == undoEnabled) &&
             (identical(other.gameIsWon, gameIsWon) ||
@@ -248,6 +266,7 @@ class _$AppStateDataImpl implements _AppStateData {
       const DeepCollectionEquality().hash(_playColumns),
       const DeepCollectionEquality().hash(_undoCompletedPiles),
       const DeepCollectionEquality().hash(_undoPlayColumns),
+      const DeepCollectionEquality().hash(isAutocompleting),
       undoEnabled,
       gameIsWon);
 
@@ -264,6 +283,7 @@ abstract class _AppStateData implements AppStateData {
       final List<List<CardData>> playColumns,
       final List<List<CardData>> undoCompletedPiles,
       final List<List<CardData>> undoPlayColumns,
+      final dynamic isAutocompleting,
       final bool undoEnabled,
       final bool gameIsWon}) = _$AppStateDataImpl;
 
@@ -275,6 +295,8 @@ abstract class _AppStateData implements AppStateData {
   List<List<CardData>> get undoCompletedPiles;
   @override
   List<List<CardData>> get undoPlayColumns;
+  @override
+  dynamic get isAutocompleting;
   @override
   bool get undoEnabled;
   @override
