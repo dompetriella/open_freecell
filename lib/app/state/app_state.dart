@@ -148,6 +148,7 @@ class AppState extends _$AppState {
 
   void searchAndAddAvailableCardsToCompletedPiles(WidgetRef ref) async {
     while (true) {
+      state = state.copyWith(isAutocompleting: true);
       List<List<CardData>> newPlayableState =
           createDeepCopyOfCardList(state.playColumns);
       List<CardData> cardsToBeCompleted = [];
@@ -166,6 +167,7 @@ class AppState extends _$AppState {
           await Future.delayed(400.ms);
         }
       } else {
+        state = state.copyWith(isAutocompleting: false);
         break;
       }
     }

@@ -45,7 +45,7 @@ class CompletedCardSlot extends ConsumerWidget {
                   column: PlayColumns.completedPile.index)
               .animate()
               .slide(
-                  begin: Offset(cardLengthsToCenter / 2, 0),
+                  begin: Offset(1.5, 0),
                   duration: 500.ms,
                   curve: Curves.decelerate)
               .then()
