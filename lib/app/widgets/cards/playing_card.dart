@@ -27,38 +27,41 @@ class PlayingCard extends HookConsumerWidget {
     List<CardData> moveableCards = getCardsAvailableToMove(cardData, ref);
     bool isDraggable = isCardDraggable(ref, index, column, isExpanded);
 
-    return Draggable<List<CardData>>(
-      data: moveableCards,
-      maxSimultaneousDrags: isDraggable ? 1 : 0,
-      onDragStarted: () {
-        appStateActions.removeCardsFromPlayColumn(moveableCards);
-      },
-      onDraggableCanceled: (velocity, offset) {
-        appStateActions.returnCardsOnDragCancel(moveableCards);
-      },
-      onDragEnd: (details) {
-        if (details.wasAccepted == false) {
+    return Transform.translate(
+      offset: Offset(0, -3.0 * (index ?? 0)),
+      child: Draggable<List<CardData>>(
+        data: moveableCards,
+        maxSimultaneousDrags: isDraggable ? 1 : 0,
+        onDragStarted: () {
+          appStateActions.removeCardsFromPlayColumn(moveableCards);
+        },
+        onDraggableCanceled: (velocity, offset) {
           appStateActions.returnCardsOnDragCancel(moveableCards);
-        }
-      },
-      feedback: PlayingCardDraggableColumn(cardData: moveableCards),
-      childWhenDragging: const SizedBox.shrink(),
-      child: MouseRegion(
-        cursor:
-            isDraggable ? SystemMouseCursors.click : SystemMouseCursors.basic,
-        child: GestureDetector(
-          onDoubleTap: () {
-            if (canCardBeCompleted(isExpanded, cardData, ref)) {
-              appStateActions.removeCardsFromPlayColumn([cardData]);
-              appStateActions.addCardToCompletedPile(cardData);
-            }
-          },
-          child: RootPlayingCard(
-              isExpanded: isExpanded,
-              cardData: cardData,
-              index: index,
-              inPlayColumn: inPlayColumn,
-              cardName: cardName),
+        },
+        onDragEnd: (details) {
+          if (details.wasAccepted == false) {
+            appStateActions.returnCardsOnDragCancel(moveableCards);
+          }
+        },
+        feedback: PlayingCardDraggableColumn(cardData: moveableCards),
+        childWhenDragging: const SizedBox.shrink(),
+        child: MouseRegion(
+          cursor:
+              isDraggable ? SystemMouseCursors.click : SystemMouseCursors.basic,
+          child: GestureDetector(
+            onDoubleTap: () {
+              if (canCardBeCompleted(isExpanded, cardData, ref)) {
+                appStateActions.removeCardsFromPlayColumn([cardData]);
+                appStateActions.addCardToCompletedPile(cardData);
+              }
+            },
+            child: RootPlayingCard(
+                isExpanded: isExpanded,
+                cardData: cardData,
+                index: index,
+                inPlayColumn: inPlayColumn,
+                cardName: cardName),
+          ),
         ),
       ),
     );
@@ -98,36 +101,33 @@ class RootPlayingCard extends StatelessWidget {
           color: Colors.white,
           fontSize: GLOBAL_cardWidth / 2,
           fontWeight: FontWeight.bold),
-      child: Transform.translate(
-        offset: Offset(0, -3.0 * (index ?? 0)),
-        child: Container(
-          height: isExpanded ? GLOBAL_cardHeight : GLOBAL_cardHeight / 4,
-          width: GLOBAL_cardWidth,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black.withOpacity(.25),
-                    offset: const Offset(0, -2),
-                    blurRadius: 5,
-                    spreadRadius: 2)
-              ],
-              border: Border.all(
-                width: 3,
-                color: getBorderColor(),
-              ),
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(isExpanded ? 5 : 0),
-                  bottomRight: Radius.circular(isExpanded ? 5 : 0),
-                  topLeft: const Radius.circular(5),
-                  topRight: const Radius.circular(5))),
-          child: isExpanded
-              ? PlayingCardExpanded(
-                  cardData: cardData,
-                  inPlayColumn: inPlayColumn,
-                  cardName: cardName)
-              : PlayingCardCollapsed(cardName: cardName, cardData: cardData),
-        ),
+      child: Container(
+        height: isExpanded ? GLOBAL_cardHeight : GLOBAL_cardHeight / 4,
+        width: GLOBAL_cardWidth,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black.withOpacity(.25),
+                  offset: const Offset(0, -2),
+                  blurRadius: 5,
+                  spreadRadius: 2)
+            ],
+            border: Border.all(
+              width: 3,
+              color: getBorderColor(),
+            ),
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(isExpanded ? 5 : 0),
+                bottomRight: Radius.circular(isExpanded ? 5 : 0),
+                topLeft: const Radius.circular(5),
+                topRight: const Radius.circular(5))),
+        child: isExpanded
+            ? PlayingCardExpanded(
+                cardData: cardData,
+                inPlayColumn: inPlayColumn,
+                cardName: cardName)
+            : PlayingCardCollapsed(cardName: cardName, cardData: cardData),
       ),
     );
   }
