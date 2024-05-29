@@ -58,14 +58,32 @@ class PlayColumn extends HookConsumerWidget {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Container(
-            color: isHovering.value
-                ? Colors.white.withOpacity(0.25)
-                : Colors.transparent,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      isHovering.value
+                          ? Colors.white.withOpacity(.5)
+                          : Colors.transparent,
+                      Colors.transparent
+                    ])),
             child: Column(
                 children: appState.playColumns[columnIndex].isEmpty
                     ? [
-                        const SizedBox(
+                        Container(
                           width: GLOBAL_cardWidth,
+                          height: GLOBAL_cardHeight * 2,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    Colors.white.withOpacity(.5),
+                                    Colors.transparent
+                                  ])),
                         )
                       ]
                     : [
