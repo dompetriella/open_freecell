@@ -57,7 +57,9 @@ class PlayColumn extends HookConsumerWidget {
       builder: (context, candidateData, rejectedData) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Container(
+          child: AnimatedContainer(
+            duration: 300.ms,
+            curve: Curves.decelerate,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 gradient: LinearGradient(
@@ -65,7 +67,7 @@ class PlayColumn extends HookConsumerWidget {
                     end: Alignment.bottomCenter,
                     colors: [
                       isHovering.value
-                          ? Colors.white.withOpacity(.5)
+                          ? Colors.white.withOpacity(.3)
                           : Colors.transparent,
                       Colors.transparent
                     ])),
@@ -81,7 +83,7 @@ class PlayColumn extends HookConsumerWidget {
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                   colors: [
-                                    Colors.white.withOpacity(.5),
+                                    Colors.white.withOpacity(.3),
                                     Colors.transparent
                                   ])),
                         )
