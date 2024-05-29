@@ -48,11 +48,11 @@ class App extends ConsumerWidget {
             Container(
               color: Colors.black.withOpacity(.90),
             ).animate().fadeIn(duration: 800.ms),
-          if (appState.gameIsWon) WinModal(),
           if (appState.isAutocompleting)
             Container(
               color: Colors.black.withOpacity(0),
-            )
+            ),
+          if (appState.gameIsWon) WinModal(),
         ],
       ),
     ));

@@ -1,6 +1,6 @@
 {
-    "name": "truly_freecell",
-    "short_name": "truly_freecell",
+    "name": "Open Freecell",
+    "short_name": "Open Freecell",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#1E1E1E",
